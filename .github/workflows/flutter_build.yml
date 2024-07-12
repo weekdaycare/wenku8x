@@ -7,7 +7,7 @@ on:
       - main
 
 jobs:
-  build:
+  build-apk:
     runs-on: ubuntu-latest
 
     steps:
@@ -33,18 +33,6 @@ jobs:
     - name: Build APK
       run: flutter build apk --release --target-platform=android-arm64
 
-    # 构建iOS应用
-    - name: Build iOS
-      run: flutter build ios --release --no-codesign
-
-    # 创建Payload文件夹并移动Runner.app
-    - name: Prepare IPA
-      run: |
-        mkdir -p Payload
-        mv build/ios/iphoneos/Runner.app Payload/
-        zip -r Runner.zip Payload
-        mv Runner.zip wenku8x.ipa
-
     # 发布APK和IPA到GitHub Release
     - name: Create Release
       id: create_release
@@ -54,6 +42,51 @@ jobs:
           build/app/outputs/flutter-apk/app-release.apk
           Runner.ipa
         token: ${{ secrets.TOKEN }}
+        tag: ${{ github.ref }}
+        name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+        
+  build-ipa:
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v1
+      with:
+        channel: 'stable'
+
+    - name: Install dependencies
+      run: flutter pub get
+
+    - name: Upgrade dependencies
+      run: flutter pub upgrade
+
+    - name: Build iOS
+      run: flutter build ios --release --no-codesign
+
+    - name: Prepare IPA
+      run: |
+        mkdir -p Payload
+        mv build/ios/iphoneos/Runner.app Payload/
+        zip -r Runner.zip Payload
+        mv Runner.zip wenku8x.ipa
+
+    - name: Upload IPA artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: wenku8x.ipa
+        path: wenku8x.ipa
+
+    - name: Create Release
+      id: create_release
+      uses: ncipollo/release-action@v1.8.10
+      with:
+        artifacts: wenku8x.ipa
+        token: ${{ secrets.GITHUB_TOKEN }}
         tag: ${{ github.ref }}
         name: Release ${{ github.ref }}
         draft: false
