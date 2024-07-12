@@ -25,7 +25,7 @@ jobs:
       run: flutter pub upgrade
 
     - name: Build APK
-      run: flutter build apk --release --target-platform=android-arm64
+      run: flutter build apk --release
 
     - name: Upload APK artifact
       uses: actions/upload-artifact@v2
@@ -106,16 +106,19 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: app-release.apk
+        path: ./
 
     - name: Download IPA artifact
       uses: actions/download-artifact@v2
       with:
         name: Runner.ipa
-        
+        path: ./
+
     - name: Download Windows artifact
       uses: actions/download-artifact@v2
       with:
         name: app-release.zip
+        path: ./
 
     - name: Create Release
       id: create_release
@@ -125,7 +128,7 @@ jobs:
           app-release.apk
           Runner.ipa
           app-release.zip
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.TOKEN }}
         tag: ${{ github.ref_name }}
         name: Release ${{ github.ref_name }}
         draft: false
