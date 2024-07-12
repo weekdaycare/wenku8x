@@ -1,0 +1,56 @@
+name: Flutter CI
+
+# 创建触发打包条件
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 检出代码
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    # 设置Flutter环境
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v1
+      with:
+        channel: 'stable'
+
+    # 获取Flutter依赖
+    - name: Install dependencies
+      run: flutter pub get
+
+    # 构建APK
+    - name: Build APK
+      run: flutter build apk --release --target-platform=android-arm64
+
+    # 构建iOS应用
+    - name: Build iOS
+      run: flutter build ios --release --no-codesign
+
+    # 创建Payload文件夹并移动Runner.app
+    - name: Prepare IPA
+      run: |
+        mkdir -p Payload
+        mv build/ios/iphoneos/Runner.app Payload/
+        zip -r Runner.zip Payload
+        mv Runner.zip wenku8x.ipa
+
+    # 发布APK和IPA到GitHub Release
+    - name: Create Release
+      id: create_release
+      uses: ncipollo/release-action@v1.8.10
+      with:
+        artifacts: |
+          build/app/outputs/flutter-apk/app-release.apk
+          Runner.ipa
+        token: ${{ secrets.TOKEN }}
+        tag: ${{ github.ref }}
+        name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
