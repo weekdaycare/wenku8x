@@ -25,6 +25,9 @@ jobs:
     # 获取Flutter依赖
     - name: Install dependencies
       run: flutter pub get
+      
+    - name: Upgrade dependencies
+      run: flutter pub upgrade
 
     # 构建APK
     - name: Build APK
