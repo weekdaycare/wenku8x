@@ -1,12 +1,44 @@
 name: Flutter CI
 
-# 创建触发打包条件
 on:
   push:
     tags:
       - 'v*.*'
+
 jobs:
-  build-ipa:
+  build-android:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up JDK 1.12
+      uses: actions/setup-java@v1
+      with:
+        java-version: '12.x'
+
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v1
+      with:
+        channel: 'stable'
+
+    - name: Install dependencies
+      run: flutter pub get
+
+    - name: Upgrade dependencies
+      run: flutter pub upgrade
+
+    - name: Build APK
+      run: flutter build apk --release --target-platform=android-arm64
+
+    - name: Upload APK artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: app-release.apk
+        path: build/app/outputs/flutter-apk/app-release.apk
+
+  build-ios:
     runs-on: macos-latest
 
     steps:
@@ -32,57 +64,41 @@ jobs:
         mkdir -p Payload
         mv build/ios/iphoneos/Runner.app Payload/
         zip -r Runner.zip Payload
-        mv Runner.zip wenku8x.ipa
+        mv Runner.zip Runner.ipa
 
     - name: Upload IPA artifact
       uses: actions/upload-artifact@v2
       with:
-        name: wenku8x.ipa
-        path: wenku8x.ipa
+        name: Runner.ipa
+        path: Runner.ipa
 
-    - name: Create Release
-      id: create_release
-      uses: ncipollo/release-action@v1.8.10
-      with:
-        artifacts: wenku8x.ipa
-        token: ${{ secrets.GITHUB_TOKEN }}
-        tag: ${{ github.ref }}
-        name: Release ${{ github.ref }}
-        draft: false
-        prerelease: false
-  build-apk:
+  create-release:
     runs-on: ubuntu-latest
+    needs: [build-android, build-ios]
 
     steps:
-    # 检出代码
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    # 设置Flutter环境
-    - name: Set up Flutter
-      uses: subosito/flutter-action@v1
+    - name: Download APK artifact
+      uses: actions/download-artifact@v2
       with:
-        channel: 'stable'
-        flutter-version: '3.22.0'
+        name: app-release.apk
 
-    # 获取Flutter依赖
-    - name: Install dependencies
-      run: flutter pub get
-      
-    - name: Upgrade dependencies
-      run: flutter pub upgrade
-
-    # 构建APK
-    - name: Build APK
-      run: flutter build apk --release --target-platform=android-arm64
+    - name: Download IPA artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: Runner.ipa
 
     - name: Create Release
       id: create_release
       uses: ncipollo/release-action@v1.8.10
       with:
-        artifacts: build/app/outputs/flutter-apk/app-release.apk
+        artifacts: |
+          app-release.apk
+          Runner.ipa
         token: ${{ secrets.GITHUB_TOKEN }}
-        tag: ${{ github.ref }}
-        name: Release ${{ github.ref }}
+        tag: ${{ github.ref_name }}
+        name: Release ${{ github.ref_name }}
         draft: false
         prerelease: false
