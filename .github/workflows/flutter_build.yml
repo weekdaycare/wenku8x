@@ -25,7 +25,7 @@ jobs:
       run: flutter pub upgrade
 
     - name: Build APK
-      run: flutter build apk --release
+      run: flutter build apk --release --target-platform=android-arm64
 
     - name: Upload APK artifact
       uses: actions/upload-artifact@v2
@@ -66,7 +66,7 @@ jobs:
       with:
         name: Runner.ipa
         path: Runner.ipa
-        
+
   build-windows:
     runs-on: windows-latest
 
@@ -88,11 +88,16 @@ jobs:
     - name: Build Windows
       run: flutter build windows --release
 
+    - name: Prepare Windows artifact
+      run: |
+        cd build/windows/runner/Release
+        zip -r app-release.zip .
+
     - name: Upload Windows artifact
       uses: actions/upload-artifact@v2
       with:
         name: app-release.zip
-        path: build/windows/runner/Release
+        path: build/windows/runner/Release/app-release.zip
 
   create-release:
     runs-on: ubuntu-latest
