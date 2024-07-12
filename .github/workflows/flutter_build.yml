@@ -90,14 +90,13 @@ jobs:
 
     - name: Prepare Windows artifact
       run: |
-        cd build/windows/runner/Release
-        zip -r app-release.zip .
+        Compress-Archive -Path build/windows/runner/Release/* -DestinationPath app-release.zip
 
     - name: Upload Windows artifact
       uses: actions/upload-artifact@v2
       with:
         name: app-release.zip
-        path: build/windows/runner/Release/app-release.zip
+        path: app-release.zip
 
   create-release:
     runs-on: ubuntu-latest
