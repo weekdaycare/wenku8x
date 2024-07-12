@@ -77,15 +77,12 @@ jobs:
     - name: Build APK
       run: flutter build apk --release --target-platform=android-arm64
 
-    # 发布APK和IPA到GitHub Release
     - name: Create Release
       id: create_release
       uses: ncipollo/release-action@v1.8.10
       with:
-        artifacts: |
-          build/app/outputs/flutter-apk/app-release.apk
-          Runner.ipa
-        token: ${{ secrets.TOKEN }}
+        artifacts: build/app/outputs/flutter-apk/app-release.apk
+        token: ${{ secrets.GITHUB_TOKEN }}
         tag: ${{ github.ref }}
         name: Release ${{ github.ref }}
         draft: false
