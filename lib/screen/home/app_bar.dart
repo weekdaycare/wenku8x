@@ -106,24 +106,7 @@ class HomeAppBar extends HookConsumerWidget implements PreferredSizeWidget {
                     // 原形头像
                     GestureDetector(
                       child: ClipOval(
-                          child: avatarFile.data == null
-                              ? Image.asset(
-                                  "assets/image/akari.jpg",
-                                  width: 40,
-                                  height: 40,
-                                )
-                              : Image.file(
-                                  avatarFile.data!,
-                                  width: 40,
-                                  height: 40,
-                                  // errorBuilder: (context, error, stackTrace) {
-                                  //   return Image.asset(
-                                  //     "assets/image/akari.jpg",
-                                  //     width: 40,
-                                  //     height: 40,
-                                  //   );
-                                  // },
-                                )),
+                          child: const Icon(Icons.person)),
                       onTap: () {
                         onAvatarTap();
                       },
