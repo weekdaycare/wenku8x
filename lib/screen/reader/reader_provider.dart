@@ -19,6 +19,7 @@ import 'package:wenku8x/utils/log.dart';
 import 'package:wenku8x/utils/render.dart';
 
 part 'reader_provider.freezed.dart';
+
 part 'reader_provider.g.dart';
 
 @freezed
@@ -181,18 +182,21 @@ final readerMenuStateProvider =
 
 class ReaderNotifier
     extends AutoDisposeFamilyNotifier<Reader, (String, String, int)> {
-  (List<String>, String) cachedTextAndTitle = ([], "");
+  (List<String>, String, String) cachedTextAndTitle = ([], "", "");
   bool lockLoading = false;
   double posX = 0;
   int? initCIndex;
+
   // int cIndex = 0;
   late Directory bookDir;
   late double screenWidth;
   late double screenHeight;
   late File metaFile;
   late PageController pageController = PageController(keepPage: true);
+  late ScrollController scrollController = ScrollController();
   late BuildContext ctx;
   late int pointDownPage;
+
   @override
   Reader build(arg) {
     final themeId = sp.getString("themeId");
@@ -239,7 +243,7 @@ class ReaderNotifier
     state = state.copyWith(catalog: chapters, cIndex: recordMeta.cIndex);
   }
 
-  Future<(List<String>, String)> fetchContentTextAndTitle(int? ci) async {
+  Future<(List<String>, String, String)> fetchContentTextAndTitle(int? ci) async {
     final index = ci ?? state.cIndex;
     final cid = state.catalog[index].cid;
     final file = File("${bookDir.path}/$cid.txt");
@@ -250,7 +254,9 @@ class ReaderNotifier
     List<String> textArr = text.split(RegExp(r"\n\s*|\s{2,}"));
     textArr.removeRange(0, 2);
     file.writeAsString(text);
-    return (textArr, state.catalog[index].name);
+    // Log.i(text);
+    debugPrint("${text}");
+    return (textArr, state.catalog[index].name,text);
   }
 
   List<Widget> splitPages(
@@ -289,11 +295,11 @@ class ReaderNotifier
     });
   }
 
-  Future<List<Widget>> getPages({
+  Future<(List<Widget>,String)> getPages({
     int? ci,
   }) async {
-    final (textArr, title) = await fetchContentTextAndTitle(ci ?? state.cIndex);
-    return splitPages(textArr: textArr, title: title, ci: ci ?? state.cIndex);
+    final (textArr, title,text) = await fetchContentTextAndTitle(ci ?? state.cIndex);
+    return (splitPages(textArr: textArr, title: title, ci: ci ?? state.cIndex),text);
   }
 
 // 探测是否需要额外加载
@@ -335,7 +341,7 @@ class ReaderNotifier
   }
 
   void initPages({int? cIndex, int? pIndex}) async {
-    final pages = await getPages(ci: cIndex ?? state.cIndex);
+    final (pages,text) = await getPages(ci: cIndex ?? state.cIndex);
     int pageIndex = 0;
     if (metaFile.existsSync()) {
       final meta =
@@ -353,7 +359,7 @@ class ReaderNotifier
     //     initialPage: initCIndex != null ? 0 : (pIndex ?? pageIndex),
     //     keepPage: true);
     initCIndex = null;
-    state = state.copyWith(pages: pages, cIndex: cIndex ?? state.cIndex);
+    state = state.copyWith(pages: pages,cachedText: text, cIndex: cIndex ?? state.cIndex);
     _checkLoadingExtra(pIndex: pIndex ?? pageIndex).then((_) {
       Future.delayed(const Duration(milliseconds: 100)).then((_) {
         _updateRecordMeta();
@@ -368,6 +374,7 @@ class ReaderNotifier
     int latestChapterIndex =
         Map.from((state.pages.last.key as ValueKey).value)['cIndex'];
     cachedTextAndTitle = await fetchContentTextAndTitle(latestChapterIndex + 1);
+    state = state.copyWith(cIndex: latestChapterIndex + 1);
     lockLoading = false;
   }
 
@@ -402,7 +409,7 @@ class ReaderNotifier
       });
     }
     lockLoading = false;
-    cachedTextAndTitle = ([], "");
+    cachedTextAndTitle = ([], "", "");
   }
 
   void _updateRecordMeta() {
@@ -471,10 +478,10 @@ class ReaderNotifier
   }
 
   _checkFirstPage() {
-    if (pageController.offset == 0) {
-      // Show.error("前面什么都木有~");
-      return true;
-    }
+    // if (pageController.offset == 0) {
+    //   // Show.error("前面什么都木有~");
+    //   return true;
+    // }
     return false;
   }
 
@@ -484,6 +491,27 @@ class ReaderNotifier
       return true;
     }
     return false;
+  }
+
+  onTap() {
+    // 如果子菜单开启，则不响应翻页 只关闭子菜单
+    if (ref.read(readerMenuStateProvider).subMenusVisible) {
+      ref.read(readerMenuStateProvider.notifier).dispatch(
+            menuCatalogVisible: false,
+            menuThemeVisible: false,
+            menuTextVisible: false,
+            menuConfigVisible: false,
+            menuTopVisible: true,
+            menuBottomVisible: true,
+          );
+      return;
+    }
+    ref.read(readerMenuStateProvider.notifier).toggleInitialBars();
+    // // 如果父菜单开启，则不响应翻页，只关闭父菜单
+    // if (ref.read(readerMenuStateProvider).parentMenuVisible) {
+    //   ref.read(readerMenuStateProvider.notifier).reset();
+    //   return;
+    // }
   }
 
   onPointerUp(PointerUpEvent event) {
