@@ -482,6 +482,7 @@ mixin _$Reader {
   String get name => throw _privateConstructorUsedError;
   String get aid => throw _privateConstructorUsedError;
   int get cIndex => throw _privateConstructorUsedError;
+  double get progress => throw _privateConstructorUsedError;
   String get themeId => throw _privateConstructorUsedError;
   List<Chapter> get catalog => throw _privateConstructorUsedError;
   TextStyle get textStyle => throw _privateConstructorUsedError;
@@ -502,6 +503,7 @@ abstract class $ReaderCopyWith<$Res> {
       {String name,
       String aid,
       int cIndex,
+      double progress,
       String themeId,
       List<Chapter> catalog,
       TextStyle textStyle,
@@ -528,6 +530,7 @@ class _$ReaderCopyWithImpl<$Res, $Val extends Reader>
     Object? name = null,
     Object? aid = null,
     Object? cIndex = null,
+    Object? progress = null,
     Object? themeId = null,
     Object? catalog = null,
     Object? textStyle = null,
@@ -548,6 +551,10 @@ class _$ReaderCopyWithImpl<$Res, $Val extends Reader>
           ? _value.cIndex
           : cIndex // ignore: cast_nullable_to_non_nullable
               as int,
+      progress: null == progress
+          ? _value.progress
+          : progress // ignore: cast_nullable_to_non_nullable
+              as double,
       themeId: null == themeId
           ? _value.themeId
           : themeId // ignore: cast_nullable_to_non_nullable
@@ -595,6 +602,7 @@ abstract class _$$ReaderImplCopyWith<$Res> implements $ReaderCopyWith<$Res> {
       {String name,
       String aid,
       int cIndex,
+      double progress,
       String themeId,
       List<Chapter> catalog,
       TextStyle textStyle,
@@ -620,6 +628,7 @@ class __$$ReaderImplCopyWithImpl<$Res>
     Object? name = null,
     Object? aid = null,
     Object? cIndex = null,
+    Object? progress = null,
     Object? themeId = null,
     Object? catalog = null,
     Object? textStyle = null,
@@ -640,6 +649,10 @@ class __$$ReaderImplCopyWithImpl<$Res>
           ? _value.cIndex
           : cIndex // ignore: cast_nullable_to_non_nullable
               as int,
+      progress: null == progress
+          ? _value.progress
+          : progress // ignore: cast_nullable_to_non_nullable
+              as double,
       themeId: null == themeId
           ? _value.themeId
           : themeId // ignore: cast_nullable_to_non_nullable
@@ -675,6 +688,7 @@ class _$ReaderImpl extends _Reader with DiagnosticableTreeMixin {
       {required this.name,
       required this.aid,
       this.cIndex = 0,
+      this.progress = 0.0,
       this.themeId = "mulberry",
       final List<Chapter> catalog = const [],
       this.textStyle = const TextStyle(fontSize: 18, height: 1.7),
@@ -692,6 +706,9 @@ class _$ReaderImpl extends _Reader with DiagnosticableTreeMixin {
   @override
   @JsonKey()
   final int cIndex;
+  @override
+  @JsonKey()
+  final double progress;
   @override
   @JsonKey()
   final String themeId;
@@ -725,7 +742,7 @@ class _$ReaderImpl extends _Reader with DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Reader(name: $name, aid: $aid, cIndex: $cIndex, themeId: $themeId, catalog: $catalog, textStyle: $textStyle, pages: $pages, cachedText: $cachedText, config: $config)';
+    return 'Reader(name: $name, aid: $aid, cIndex: $cIndex, progress: $progress, themeId: $themeId, catalog: $catalog, textStyle: $textStyle, pages: $pages, cachedText: $cachedText, config: $config)';
   }
 
   @override
@@ -736,6 +753,7 @@ class _$ReaderImpl extends _Reader with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('name', name))
       ..add(DiagnosticsProperty('aid', aid))
       ..add(DiagnosticsProperty('cIndex', cIndex))
+      ..add(DiagnosticsProperty('progress', progress))
       ..add(DiagnosticsProperty('themeId', themeId))
       ..add(DiagnosticsProperty('catalog', catalog))
       ..add(DiagnosticsProperty('textStyle', textStyle))
@@ -752,6 +770,8 @@ class _$ReaderImpl extends _Reader with DiagnosticableTreeMixin {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.aid, aid) || other.aid == aid) &&
             (identical(other.cIndex, cIndex) || other.cIndex == cIndex) &&
+            (identical(other.progress, progress) ||
+                other.progress == progress) &&
             (identical(other.themeId, themeId) || other.themeId == themeId) &&
             const DeepCollectionEquality().equals(other._catalog, _catalog) &&
             (identical(other.textStyle, textStyle) ||
@@ -768,6 +788,7 @@ class _$ReaderImpl extends _Reader with DiagnosticableTreeMixin {
       name,
       aid,
       cIndex,
+      progress,
       themeId,
       const DeepCollectionEquality().hash(_catalog),
       textStyle,
@@ -787,6 +808,7 @@ abstract class _Reader extends Reader {
       {required final String name,
       required final String aid,
       final int cIndex,
+      final double progress,
       final String themeId,
       final List<Chapter> catalog,
       final TextStyle textStyle,
@@ -801,6 +823,8 @@ abstract class _Reader extends Reader {
   String get aid;
   @override
   int get cIndex;
+  @override
+  double get progress;
   @override
   String get themeId;
   @override
@@ -1298,6 +1322,7 @@ RecordMeta _$RecordMetaFromJson(Map<String, dynamic> json) {
 mixin _$RecordMeta {
   int get cIndex => throw _privateConstructorUsedError;
   int get pIndex => throw _privateConstructorUsedError;
+  double get progress => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1311,7 +1336,7 @@ abstract class $RecordMetaCopyWith<$Res> {
           RecordMeta value, $Res Function(RecordMeta) then) =
       _$RecordMetaCopyWithImpl<$Res, RecordMeta>;
   @useResult
-  $Res call({int cIndex, int pIndex});
+  $Res call({int cIndex, int pIndex, double progress});
 }
 
 /// @nodoc
@@ -1329,6 +1354,7 @@ class _$RecordMetaCopyWithImpl<$Res, $Val extends RecordMeta>
   $Res call({
     Object? cIndex = null,
     Object? pIndex = null,
+    Object? progress = null,
   }) {
     return _then(_value.copyWith(
       cIndex: null == cIndex
@@ -1339,6 +1365,10 @@ class _$RecordMetaCopyWithImpl<$Res, $Val extends RecordMeta>
           ? _value.pIndex
           : pIndex // ignore: cast_nullable_to_non_nullable
               as int,
+      progress: null == progress
+          ? _value.progress
+          : progress // ignore: cast_nullable_to_non_nullable
+              as double,
     ) as $Val);
   }
 }
@@ -1351,7 +1381,7 @@ abstract class _$$RecordMetaImplCopyWith<$Res>
       __$$RecordMetaImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int cIndex, int pIndex});
+  $Res call({int cIndex, int pIndex, double progress});
 }
 
 /// @nodoc
@@ -1367,6 +1397,7 @@ class __$$RecordMetaImplCopyWithImpl<$Res>
   $Res call({
     Object? cIndex = null,
     Object? pIndex = null,
+    Object? progress = null,
   }) {
     return _then(_$RecordMetaImpl(
       cIndex: null == cIndex
@@ -1377,6 +1408,10 @@ class __$$RecordMetaImplCopyWithImpl<$Res>
           ? _value.pIndex
           : pIndex // ignore: cast_nullable_to_non_nullable
               as int,
+      progress: null == progress
+          ? _value.progress
+          : progress // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -1384,7 +1419,8 @@ class __$$RecordMetaImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$RecordMetaImpl with DiagnosticableTreeMixin implements _RecordMeta {
-  const _$RecordMetaImpl({this.cIndex = 0, this.pIndex = 0});
+  const _$RecordMetaImpl(
+      {this.cIndex = 0, this.pIndex = 0, this.progress = 0.0});
 
   factory _$RecordMetaImpl.fromJson(Map<String, dynamic> json) =>
       _$$RecordMetaImplFromJson(json);
@@ -1395,10 +1431,13 @@ class _$RecordMetaImpl with DiagnosticableTreeMixin implements _RecordMeta {
   @override
   @JsonKey()
   final int pIndex;
+  @override
+  @JsonKey()
+  final double progress;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'RecordMeta(cIndex: $cIndex, pIndex: $pIndex)';
+    return 'RecordMeta(cIndex: $cIndex, pIndex: $pIndex, progress: $progress)';
   }
 
   @override
@@ -1407,7 +1446,8 @@ class _$RecordMetaImpl with DiagnosticableTreeMixin implements _RecordMeta {
     properties
       ..add(DiagnosticsProperty('type', 'RecordMeta'))
       ..add(DiagnosticsProperty('cIndex', cIndex))
-      ..add(DiagnosticsProperty('pIndex', pIndex));
+      ..add(DiagnosticsProperty('pIndex', pIndex))
+      ..add(DiagnosticsProperty('progress', progress));
   }
 
   @override
@@ -1416,12 +1456,14 @@ class _$RecordMetaImpl with DiagnosticableTreeMixin implements _RecordMeta {
         (other.runtimeType == runtimeType &&
             other is _$RecordMetaImpl &&
             (identical(other.cIndex, cIndex) || other.cIndex == cIndex) &&
-            (identical(other.pIndex, pIndex) || other.pIndex == pIndex));
+            (identical(other.pIndex, pIndex) || other.pIndex == pIndex) &&
+            (identical(other.progress, progress) ||
+                other.progress == progress));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, cIndex, pIndex);
+  int get hashCode => Object.hash(runtimeType, cIndex, pIndex, progress);
 
   @JsonKey(ignore: true)
   @override
@@ -1438,8 +1480,10 @@ class _$RecordMetaImpl with DiagnosticableTreeMixin implements _RecordMeta {
 }
 
 abstract class _RecordMeta implements RecordMeta {
-  const factory _RecordMeta({final int cIndex, final int pIndex}) =
-      _$RecordMetaImpl;
+  const factory _RecordMeta(
+      {final int cIndex,
+      final int pIndex,
+      final double progress}) = _$RecordMetaImpl;
 
   factory _RecordMeta.fromJson(Map<String, dynamic> json) =
       _$RecordMetaImpl.fromJson;
@@ -1448,6 +1492,8 @@ abstract class _RecordMeta implements RecordMeta {
   int get cIndex;
   @override
   int get pIndex;
+  @override
+  double get progress;
   @override
   @JsonKey(ignore: true)
   _$$RecordMetaImplCopyWith<_$RecordMetaImpl> get copyWith =>

@@ -65,6 +65,7 @@ class Reader with _$Reader {
     required String name,
     required String aid,
     @Default(0) int cIndex,
+    @Default(0.0) double progress,
     @Default("mulberry") String themeId,
     @Default([]) List<Chapter> catalog,
     @Default(TextStyle(fontSize: 18, height: 1.7)) TextStyle textStyle,
@@ -110,6 +111,7 @@ class RecordMeta with _$RecordMeta {
   const factory RecordMeta({
     @Default(0) int cIndex,
     @Default(0) int pIndex,
+    @Default(0.0) double progress,
   }) = _RecordMeta;
 
   factory RecordMeta.fromJson(Map<String, dynamic> json) =>

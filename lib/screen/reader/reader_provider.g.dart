@@ -22,10 +22,12 @@ _$RecordMetaImpl _$$RecordMetaImplFromJson(Map<String, dynamic> json) =>
     _$RecordMetaImpl(
       cIndex: (json['cIndex'] as num?)?.toInt() ?? 0,
       pIndex: (json['pIndex'] as num?)?.toInt() ?? 0,
+      progress: (json['progress'] as num?)?.toDouble() ?? 0.0,
     );
 
 Map<String, dynamic> _$$RecordMetaImplToJson(_$RecordMetaImpl instance) =>
     <String, dynamic>{
       'cIndex': instance.cIndex,
       'pIndex': instance.pIndex,
+      'progress': instance.progress,
     };

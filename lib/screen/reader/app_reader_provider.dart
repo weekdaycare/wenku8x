@@ -28,12 +28,25 @@ class AppReader extends _$AppReader {
     final textStyle = TextStyle(
         fontSize: sp.getDouble("fontSize") ?? 18,
         height: sp.getDouble("lineHeight") ?? 1.7);
+    scrollController.addListener(_listenVertical);
     return Reader(
         name: arg.$1,
         aid: arg.$2,
         cIndex: arg.$3,
         themeId: themeId ?? "mulberry",
         textStyle: textStyle);
+  }
+
+  Future saveMetaFile() async {
+    final docDir = await getApplicationDocumentsDirectory();
+    metaFile = File("${bookDir.path}/meta.json");
+    var exist = await metaFile.exists();
+    if(exist){
+      await metaFile.writeAsString(jsonEncode(RecordMeta(cIndex: state.cIndex, progress: state.progress)));
+    }else{
+      await metaFile.create();
+      await metaFile.writeAsString(jsonEncode(RecordMeta(cIndex: state.cIndex, progress: state.progress)));
+    }
   }
 
   Future initCatalog() async {
@@ -58,7 +71,7 @@ class AppReader extends _$AppReader {
       chapters = await API.getNovelIndex(state.aid);
       file.writeAsString(jsonEncode(chapters));
     }
-    state = state.copyWith(catalog: chapters, cIndex: recordMeta.cIndex);
+    state = state.copyWith(catalog: chapters, cIndex: recordMeta.cIndex, progress: recordMeta.progress);
     Log.i(state);
   }
 
@@ -89,14 +102,16 @@ class AppReader extends _$AppReader {
   Future loadNextChapter() async {
     int latestChapterIndex = state.cIndex;
     cachedTextAndTitle = await fetchContentTextAndTitle(latestChapterIndex + 1);
-    state = state.copyWith(cachedText: cachedTextAndTitle.$3,cIndex: latestChapterIndex + 1);
+    state = state.copyWith(
+        cachedText: cachedTextAndTitle.$3, cIndex: latestChapterIndex + 1);
     scrollController.jumpTo(0);
   }
 
   Future loadPreviousChapter() async {
     int latestChapterIndex = state.cIndex;
     cachedTextAndTitle = await fetchContentTextAndTitle(latestChapterIndex - 1);
-    state = state.copyWith(cachedText: cachedTextAndTitle.$3,cIndex: latestChapterIndex - 1);
+    state = state.copyWith(
+        cachedText: cachedTextAndTitle.$3, cIndex: latestChapterIndex - 1);
     scrollController.jumpTo(0);
   }
 
@@ -116,6 +131,21 @@ class AppReader extends _$AppReader {
     scrollController.jumpTo(0);
   }
 
+  void _listenVertical() {
+    if (scrollController.position.maxScrollExtent > 0) {
+      var progress = scrollController.position.pixels /
+          scrollController.position.maxScrollExtent;
+      state = state.copyWith(progress: progress);
+      Log.i(progress);
+    }
+  }
+
+  void jumpFromProgress({double? progress}) {
+    final targetPosition = progress?? state.progress * scrollController.position.maxScrollExtent;
+    Log.i(targetPosition);
+    scrollController.jumpTo(targetPosition);
+    state = state.copyWith(progress: progress?? state.progress);
+  }
 
   void jumpToIndex(int index) async {
     await initChapter(cIndex: index);
