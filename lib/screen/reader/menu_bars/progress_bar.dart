@@ -41,7 +41,9 @@ class _ProgressBarState extends ConsumerState<ProgressBar> {
             child: Row(
               children: [
                 TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      ref.read(widget.provider.notifier).loadPreviousChapter();
+                    },
                     child: Text(
                       "上一章",
                       style: TextStyle(
@@ -81,7 +83,9 @@ class _ProgressBarState extends ConsumerState<ProgressBar> {
                   ),
                 )),
                 TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      ref.read(widget.provider.notifier).loadNextChapter();
+                    },
                     child: Text(
                       "下一章",
                       style: TextStyle(

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wenku8x/screen/reader/app_reader_provider.dart';
 import 'package:wenku8x/screen/reader/menu_bars/menu_catalog.dart';
 import 'package:wenku8x/screen/reader/menu_bars/menu_config.dart';
 import 'package:wenku8x/screen/reader/menu_bars/menu_text.dart';
@@ -17,8 +18,8 @@ import 'menu_bars/menu_bottom.dart';
 import 'menu_bars/menu_theme.dart';
 import 'reader_provider.dart';
 
-class ReaderScreen extends StatefulHookConsumerWidget {
-  const ReaderScreen(
+class AppReaderScreen extends StatefulHookConsumerWidget {
+  const AppReaderScreen(
       {required this.name, required this.aid, super.key, required this.cIndex});
 
   final String name;
@@ -29,24 +30,20 @@ class ReaderScreen extends StatefulHookConsumerWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _ReaderScreenState();
 }
 
-class _ReaderScreenState extends ConsumerState<ReaderScreen> {
+class _ReaderScreenState extends ConsumerState<AppReaderScreen> {
   List<Chapter> catalog = [];
   String cachedText = '';
 
   @override
   Widget build(BuildContext context) {
-    final provider = readerProvider((widget.name, widget.aid, widget.cIndex));
+    final provider =
+        AppReaderProvider((widget.name, widget.aid, widget.cIndex));
     final reader = ref.watch(provider);
-    final loading = ref.watch(loadingProvider);
 
     useEffect(() {
-      Future(() {
-        ref.read(loadingProvider.notifier).state = true;
-      });
-      Future.delayed(const Duration(milliseconds: 500)).then((value) async {
-        ref.read(provider.notifier).init(context, widget.cIndex);
+      Future(() async {
         await ref.read(provider.notifier).initCatalog();
-        ref.read(provider.notifier).initPages();
+        await ref.read(provider.notifier).initChapter();
       });
       return null;
     }, []);
@@ -70,11 +67,11 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                     loadNext: ref.read(provider.notifier).loadNextChapter,
                     loadPrev: ref.read(provider.notifier).loadPreviousChapter,
                   ),
-                //   child: ScrollReader(
-                //       reader.pages, ref.read(provider.notifier).pageController,
-                //       loadNext: ref.read(provider.notifier).loadNextChapter,
-                //       onPageScrollEnd:
-                //           ref.read(provider.notifier).onPageScrollEnd),
+                  //   child: ScrollReader(
+                  //       reader.pages, ref.read(provider.notifier).pageController,
+                  //       loadNext: ref.read(provider.notifier).loadNextChapter,
+                  //       onPageScrollEnd:
+                  //           ref.read(provider.notifier).onPageScrollEnd),
                 )),
             const MenuBottom(),
             ProgressBar(provider),
@@ -83,16 +80,6 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
             MenuPalette(provider),
             MenuText(provider),
             MenuConfig(provider),
-            if (loading)
-              Container(
-                color: Theme.of(context).colorScheme.background,
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                child: const Center(
-                  child: SizedBox(
-                      width: 96, height: 3, child: LinearProgressIndicator()),
-                ),
-              )
           ],
         )));
   }
