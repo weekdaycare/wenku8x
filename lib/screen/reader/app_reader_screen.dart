@@ -11,6 +11,7 @@ import 'package:wenku8x/screen/reader/menu_bars/menu_config.dart';
 import 'package:wenku8x/screen/reader/menu_bars/menu_text.dart';
 import 'package:wenku8x/screen/reader/menu_bars/menu_top.dart';
 import 'package:wenku8x/screen/reader/menu_bars/progress_bar.dart';
+import 'package:wenku8x/screen/reader/menu_bars/progress_bar/app_progress_bar.dart';
 import 'package:wenku8x/screen/reader/scroll_reader.dart';
 import 'package:wenku8x/screen/reader/vertical_scroll_reader.dart';
 import 'package:wenku8x/utils/log.dart';
@@ -90,7 +91,7 @@ class _ReaderScreenState extends ConsumerState<AppReaderScreen> {
                   )),
               _buildBottomStatus(provider),
               const MenuBottom(),
-              ProgressBar(provider),
+              AppProgressBar(provider),
               MenuCatalog(provider),
               MenuTop(provider),
               MenuPalette(provider),

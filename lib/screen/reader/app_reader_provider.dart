@@ -167,11 +167,13 @@ class AppReader extends _$AppReader {
   }
 
   void jumpFromProgress({double? progress}) {
+    final progress0 = progress ?? state.progress;
     final targetPosition =
-        progress ?? state.progress * scrollController.position.maxScrollExtent;
+        progress0 * scrollController.position.maxScrollExtent;
     Log.i(targetPosition);
     scrollController.jumpTo(targetPosition);
-    state = state.copyWith(progress: progress ?? state.progress);
+    state =
+        state.copyWith(progress: (progress ?? state.progress).clamp(0, 100));
   }
 
   void jumpToIndex(int index) async {

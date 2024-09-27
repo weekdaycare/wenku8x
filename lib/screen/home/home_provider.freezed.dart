@@ -27,6 +27,7 @@ mixin _$BookItem {
   String? get intro => throw _privateConstructorUsedError;
   List<Chapter>? get catalog => throw _privateConstructorUsedError;
   bool get isFav => throw _privateConstructorUsedError;
+  int get readTime => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $BookItemCopyWith<BookItem> get copyWith =>
@@ -49,7 +50,8 @@ abstract class $BookItemCopyWith<$Res> {
       String? status,
       String? intro,
       List<Chapter>? catalog,
-      bool isFav});
+      bool isFav,
+      int readTime});
 }
 
 /// @nodoc
@@ -76,6 +78,7 @@ class _$BookItemCopyWithImpl<$Res, $Val extends BookItem>
     Object? intro = freezed,
     Object? catalog = freezed,
     Object? isFav = null,
+    Object? readTime = null,
   }) {
     return _then(_value.copyWith(
       aid: null == aid
@@ -122,6 +125,10 @@ class _$BookItemCopyWithImpl<$Res, $Val extends BookItem>
           ? _value.isFav
           : isFav // ignore: cast_nullable_to_non_nullable
               as bool,
+      readTime: null == readTime
+          ? _value.readTime
+          : readTime // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -145,7 +152,8 @@ abstract class _$$BookItemImplCopyWith<$Res>
       String? status,
       String? intro,
       List<Chapter>? catalog,
-      bool isFav});
+      bool isFav,
+      int readTime});
 }
 
 /// @nodoc
@@ -170,6 +178,7 @@ class __$$BookItemImplCopyWithImpl<$Res>
     Object? intro = freezed,
     Object? catalog = freezed,
     Object? isFav = null,
+    Object? readTime = null,
   }) {
     return _then(_$BookItemImpl(
       aid: null == aid
@@ -216,6 +225,10 @@ class __$$BookItemImplCopyWithImpl<$Res>
           ? _value.isFav
           : isFav // ignore: cast_nullable_to_non_nullable
               as bool,
+      readTime: null == readTime
+          ? _value.readTime
+          : readTime // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -234,7 +247,8 @@ class _$BookItemImpl extends _BookItem {
       this.status,
       this.intro,
       final List<Chapter>? catalog,
-      this.isFav = false})
+      this.isFav = false,
+      this.readTime = 0})
       : _catalog = catalog,
         super._();
 
@@ -269,10 +283,13 @@ class _$BookItemImpl extends _BookItem {
   @override
   @JsonKey()
   final bool isFav;
+  @override
+  @JsonKey()
+  final int readTime;
 
   @override
   String toString() {
-    return 'BookItem(aid: $aid, name: $name, cover: $cover, author: $author, lastChapter: $lastChapter, lastChapterId: $lastChapterId, lastUpdate: $lastUpdate, status: $status, intro: $intro, catalog: $catalog, isFav: $isFav)';
+    return 'BookItem(aid: $aid, name: $name, cover: $cover, author: $author, lastChapter: $lastChapter, lastChapterId: $lastChapterId, lastUpdate: $lastUpdate, status: $status, intro: $intro, catalog: $catalog, isFav: $isFav, readTime: $readTime)';
   }
 
   @override
@@ -293,7 +310,9 @@ class _$BookItemImpl extends _BookItem {
             (identical(other.status, status) || other.status == status) &&
             (identical(other.intro, intro) || other.intro == intro) &&
             const DeepCollectionEquality().equals(other._catalog, _catalog) &&
-            (identical(other.isFav, isFav) || other.isFav == isFav));
+            (identical(other.isFav, isFav) || other.isFav == isFav) &&
+            (identical(other.readTime, readTime) ||
+                other.readTime == readTime));
   }
 
   @override
@@ -309,7 +328,8 @@ class _$BookItemImpl extends _BookItem {
       status,
       intro,
       const DeepCollectionEquality().hash(_catalog),
-      isFav);
+      isFav,
+      readTime);
 
   @JsonKey(ignore: true)
   @override
@@ -330,7 +350,8 @@ abstract class _BookItem extends BookItem {
       final String? status,
       final String? intro,
       final List<Chapter>? catalog,
-      final bool isFav}) = _$BookItemImpl;
+      final bool isFav,
+      final int readTime}) = _$BookItemImpl;
   const _BookItem._() : super._();
 
   @override
@@ -355,6 +376,8 @@ abstract class _BookItem extends BookItem {
   List<Chapter>? get catalog;
   @override
   bool get isFav;
+  @override
+  int get readTime;
   @override
   @JsonKey(ignore: true)
   _$$BookItemImplCopyWith<_$BookItemImpl> get copyWith =>

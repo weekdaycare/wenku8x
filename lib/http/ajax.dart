@@ -97,7 +97,8 @@ class Ajax {
         }
       }
     } catch (err) {
-      Show.error(err.toString());
+      // Show.error(err.toString());
+      Log.e(err);
       // GoRouter.of(NavigationService.navigatorKey.currentContext!)
       //     .go("/error/$err");
       rethrow;

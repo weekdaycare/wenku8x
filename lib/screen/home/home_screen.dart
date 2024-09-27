@@ -54,6 +54,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   itemBuilder: (context, index) {
                     final book = books[index];
                     final child = BookItemComp(book, onItemTap: (item) {
+                      ref.read(myBooksProvider.notifier).updateBookReadTime(
+                          index, DateTime.now().millisecondsSinceEpoch);
                       GoRouter.of(context)
                           .push("/reader/${item.name}/${item.aid}/-1");
                     }, onItemLongTap: (item) {
