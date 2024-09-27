@@ -483,6 +483,7 @@ mixin _$Reader {
   String get aid => throw _privateConstructorUsedError;
   int get cIndex => throw _privateConstructorUsedError;
   double get progress => throw _privateConstructorUsedError;
+  bool get isImage => throw _privateConstructorUsedError;
   String get themeId => throw _privateConstructorUsedError;
   List<Chapter> get catalog => throw _privateConstructorUsedError;
   TextStyle get textStyle => throw _privateConstructorUsedError;
@@ -504,6 +505,7 @@ abstract class $ReaderCopyWith<$Res> {
       String aid,
       int cIndex,
       double progress,
+      bool isImage,
       String themeId,
       List<Chapter> catalog,
       TextStyle textStyle,
@@ -531,6 +533,7 @@ class _$ReaderCopyWithImpl<$Res, $Val extends Reader>
     Object? aid = null,
     Object? cIndex = null,
     Object? progress = null,
+    Object? isImage = null,
     Object? themeId = null,
     Object? catalog = null,
     Object? textStyle = null,
@@ -555,6 +558,10 @@ class _$ReaderCopyWithImpl<$Res, $Val extends Reader>
           ? _value.progress
           : progress // ignore: cast_nullable_to_non_nullable
               as double,
+      isImage: null == isImage
+          ? _value.isImage
+          : isImage // ignore: cast_nullable_to_non_nullable
+              as bool,
       themeId: null == themeId
           ? _value.themeId
           : themeId // ignore: cast_nullable_to_non_nullable
@@ -603,6 +610,7 @@ abstract class _$$ReaderImplCopyWith<$Res> implements $ReaderCopyWith<$Res> {
       String aid,
       int cIndex,
       double progress,
+      bool isImage,
       String themeId,
       List<Chapter> catalog,
       TextStyle textStyle,
@@ -629,6 +637,7 @@ class __$$ReaderImplCopyWithImpl<$Res>
     Object? aid = null,
     Object? cIndex = null,
     Object? progress = null,
+    Object? isImage = null,
     Object? themeId = null,
     Object? catalog = null,
     Object? textStyle = null,
@@ -653,6 +662,10 @@ class __$$ReaderImplCopyWithImpl<$Res>
           ? _value.progress
           : progress // ignore: cast_nullable_to_non_nullable
               as double,
+      isImage: null == isImage
+          ? _value.isImage
+          : isImage // ignore: cast_nullable_to_non_nullable
+              as bool,
       themeId: null == themeId
           ? _value.themeId
           : themeId // ignore: cast_nullable_to_non_nullable
@@ -689,6 +702,7 @@ class _$ReaderImpl extends _Reader with DiagnosticableTreeMixin {
       required this.aid,
       this.cIndex = 0,
       this.progress = 0.0,
+      this.isImage = false,
       this.themeId = "mulberry",
       final List<Chapter> catalog = const [],
       this.textStyle = const TextStyle(fontSize: 18, height: 1.7),
@@ -709,6 +723,9 @@ class _$ReaderImpl extends _Reader with DiagnosticableTreeMixin {
   @override
   @JsonKey()
   final double progress;
+  @override
+  @JsonKey()
+  final bool isImage;
   @override
   @JsonKey()
   final String themeId;
@@ -742,7 +759,7 @@ class _$ReaderImpl extends _Reader with DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Reader(name: $name, aid: $aid, cIndex: $cIndex, progress: $progress, themeId: $themeId, catalog: $catalog, textStyle: $textStyle, pages: $pages, cachedText: $cachedText, config: $config)';
+    return 'Reader(name: $name, aid: $aid, cIndex: $cIndex, progress: $progress, isImage: $isImage, themeId: $themeId, catalog: $catalog, textStyle: $textStyle, pages: $pages, cachedText: $cachedText, config: $config)';
   }
 
   @override
@@ -754,6 +771,7 @@ class _$ReaderImpl extends _Reader with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('aid', aid))
       ..add(DiagnosticsProperty('cIndex', cIndex))
       ..add(DiagnosticsProperty('progress', progress))
+      ..add(DiagnosticsProperty('isImage', isImage))
       ..add(DiagnosticsProperty('themeId', themeId))
       ..add(DiagnosticsProperty('catalog', catalog))
       ..add(DiagnosticsProperty('textStyle', textStyle))
@@ -772,6 +790,7 @@ class _$ReaderImpl extends _Reader with DiagnosticableTreeMixin {
             (identical(other.cIndex, cIndex) || other.cIndex == cIndex) &&
             (identical(other.progress, progress) ||
                 other.progress == progress) &&
+            (identical(other.isImage, isImage) || other.isImage == isImage) &&
             (identical(other.themeId, themeId) || other.themeId == themeId) &&
             const DeepCollectionEquality().equals(other._catalog, _catalog) &&
             (identical(other.textStyle, textStyle) ||
@@ -789,6 +808,7 @@ class _$ReaderImpl extends _Reader with DiagnosticableTreeMixin {
       aid,
       cIndex,
       progress,
+      isImage,
       themeId,
       const DeepCollectionEquality().hash(_catalog),
       textStyle,
@@ -809,6 +829,7 @@ abstract class _Reader extends Reader {
       required final String aid,
       final int cIndex,
       final double progress,
+      final bool isImage,
       final String themeId,
       final List<Chapter> catalog,
       final TextStyle textStyle,
@@ -825,6 +846,8 @@ abstract class _Reader extends Reader {
   int get cIndex;
   @override
   double get progress;
+  @override
+  bool get isImage;
   @override
   String get themeId;
   @override

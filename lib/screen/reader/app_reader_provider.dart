@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -41,11 +42,13 @@ class AppReader extends _$AppReader {
     final docDir = await getApplicationDocumentsDirectory();
     metaFile = File("${bookDir.path}/meta.json");
     var exist = await metaFile.exists();
-    if(exist){
-      await metaFile.writeAsString(jsonEncode(RecordMeta(cIndex: state.cIndex, progress: state.progress)));
-    }else{
+    if (exist) {
+      await metaFile.writeAsString(jsonEncode(
+          RecordMeta(cIndex: state.cIndex, progress: state.progress)));
+    } else {
       await metaFile.create();
-      await metaFile.writeAsString(jsonEncode(RecordMeta(cIndex: state.cIndex, progress: state.progress)));
+      await metaFile.writeAsString(jsonEncode(
+          RecordMeta(cIndex: state.cIndex, progress: state.progress)));
     }
   }
 
@@ -71,13 +74,27 @@ class AppReader extends _$AppReader {
       chapters = await API.getNovelIndex(state.aid);
       file.writeAsString(jsonEncode(chapters));
     }
-    state = state.copyWith(catalog: chapters, cIndex: recordMeta.cIndex, progress: recordMeta.progress);
+    state = state.copyWith(
+        catalog: chapters,
+        cIndex: recordMeta.cIndex,
+        progress: recordMeta.progress);
     Log.i(state);
+  }
+
+  (bool, String) testImage(String textLine) {
+    RegExp regex = RegExp(r'<!--image-->(.*?)<!--image-->');
+    Match? match = regex.firstMatch(textLine);
+    if (match != null) {
+      String imageUrl = match.group(1) ?? '';
+      return (true, imageUrl);
+    } else {
+      return (false, textLine);
+    }
   }
 
   Future<(List<String>, String, String)> fetchContentTextAndTitle(
       int? ci) async {
-    final index = ci ?? state.cIndex;
+    final index = max(0, ci ?? state.cIndex);
     final cid = state.catalog[index].cid;
     final file = File("${bookDir.path}/$cid.txt");
     String text = file.existsSync()
@@ -88,30 +105,39 @@ class AppReader extends _$AppReader {
     textArr.removeRange(0, 2);
     file.writeAsString(text);
     // Log.i(text);
-    debugPrint("${text}");
+    debugPrint("${textArr}");
     return (textArr, state.catalog[index].name, text);
   }
 
   Future<void> initChapter({int? cIndex, int? pIndex}) async {
-    final (textArr, name, text) =
-        await fetchContentTextAndTitle(cIndex ?? state.cIndex);
+    cachedTextAndTitle = await fetchContentTextAndTitle(cIndex ?? state.cIndex);
     initCIndex = null;
-    state = state.copyWith(cachedText: text, cIndex: cIndex ?? state.cIndex);
+    final (isImage, _) = testImage(cachedTextAndTitle.$1[0]);
+    state = state.copyWith(
+        isImage: isImage,
+        cachedText: cachedTextAndTitle.$3,
+        cIndex: cIndex ?? state.cIndex);
   }
 
   Future loadNextChapter() async {
     int latestChapterIndex = state.cIndex;
     cachedTextAndTitle = await fetchContentTextAndTitle(latestChapterIndex + 1);
+    final (isImage, _) = testImage(cachedTextAndTitle.$1[0]);
     state = state.copyWith(
-        cachedText: cachedTextAndTitle.$3, cIndex: latestChapterIndex + 1);
+        isImage: isImage,
+        cachedText: cachedTextAndTitle.$3,
+        cIndex: latestChapterIndex + 1);
     scrollController.jumpTo(0);
   }
 
   Future loadPreviousChapter() async {
     int latestChapterIndex = state.cIndex;
     cachedTextAndTitle = await fetchContentTextAndTitle(latestChapterIndex - 1);
+    final (isImage, _) = testImage(cachedTextAndTitle.$1[0]);
     state = state.copyWith(
-        cachedText: cachedTextAndTitle.$3, cIndex: latestChapterIndex - 1);
+        isImage: isImage,
+        cachedText: cachedTextAndTitle.$3,
+        cIndex: latestChapterIndex - 1);
     scrollController.jumpTo(0);
   }
 
@@ -136,15 +162,16 @@ class AppReader extends _$AppReader {
       var progress = scrollController.position.pixels /
           scrollController.position.maxScrollExtent;
       state = state.copyWith(progress: progress);
-      Log.i(progress);
+      // Log.i(progress);
     }
   }
 
   void jumpFromProgress({double? progress}) {
-    final targetPosition = progress?? state.progress * scrollController.position.maxScrollExtent;
+    final targetPosition =
+        progress ?? state.progress * scrollController.position.maxScrollExtent;
     Log.i(targetPosition);
     scrollController.jumpTo(targetPosition);
-    state = state.copyWith(progress: progress?? state.progress);
+    state = state.copyWith(progress: progress ?? state.progress);
   }
 
   void jumpToIndex(int index) async {

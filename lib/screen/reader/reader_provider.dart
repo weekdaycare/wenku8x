@@ -66,6 +66,7 @@ class Reader with _$Reader {
     required String aid,
     @Default(0) int cIndex,
     @Default(0.0) double progress,
+    @Default(false) bool isImage,
     @Default("mulberry") String themeId,
     @Default([]) List<Chapter> catalog,
     @Default(TextStyle(fontSize: 18, height: 1.7)) TextStyle textStyle,

@@ -77,6 +77,8 @@ class _ReaderScreenState extends ConsumerState<AppReaderScreen> {
                       reader.cachedText,
                       ref.read(provider.notifier).scrollController,
                       reader.textStyle,
+                      provider,
+                      reader.isImage,
                       loadNext: ref.read(provider.notifier).loadNextChapter,
                       loadPrev: ref.read(provider.notifier).loadPreviousChapter,
                     ),
