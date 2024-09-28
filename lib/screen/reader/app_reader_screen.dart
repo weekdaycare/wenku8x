@@ -1,9 +1,12 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -45,6 +48,9 @@ class _ReaderScreenState extends ConsumerState<AppReaderScreen> {
     final provider =
         AppReaderProvider((widget.name, widget.aid, widget.cIndex));
     final reader = ref.watch(provider);
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.immersive,
+    );
 
     useEffect(() {
       Future(() async {
@@ -97,6 +103,7 @@ class _ReaderScreenState extends ConsumerState<AppReaderScreen> {
                     //       onPageScrollEnd:
                     //           ref.read(provider.notifier).onPageScrollEnd),
                   )),
+              _buildHeader(provider),
               _buildBottomStatus(provider),
               const MenuBottom(),
               AppProgressBar(provider),
@@ -115,7 +122,7 @@ class _ReaderScreenState extends ConsumerState<AppReaderScreen> {
     return Positioned(
       right: 0,
       left: 0,
-      bottom: 0,
+      top: 0,
       child: Offstage(
         offstage: false,
         child: Container(
@@ -123,19 +130,17 @@ class _ReaderScreenState extends ConsumerState<AppReaderScreen> {
           padding: EdgeInsets.all(6),
           child: Row(
             children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 8),
-                child: buildConnectivity(),
-              ),
-              const Expanded(child: SizedBox()),
-              Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: Text(
-                  "${(ref.read(provider).progress * 100).toStringAsFixed(0)}%",
-                  style: TextStyle(
-                    fontSize: 12,
-                    height: 1.0,
-                    color: Colors.black.withOpacity(.6),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8),
+                  child: Text(
+                    "${ref.read(provider).catalog[max(0, ref.read(provider).cIndex)].name}",
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 12,
+                      height: 1.0,
+                      color: Colors.black.withOpacity(.6),
+                    ),
                   ),
                 ),
               ),
