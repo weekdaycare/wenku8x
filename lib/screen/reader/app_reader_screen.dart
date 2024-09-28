@@ -103,24 +103,29 @@ class _ReaderScreenState extends ConsumerState<AppReaderScreen> {
   }
 
   Widget _buildBottomStatus(AppReaderProvider provider) {
+    final color = ref.read(provider).theme.colorScheme.background;
     return Positioned(
-      right: 8,
-      left: 8,
-      bottom: 4,
+      right: 0,
+      left: 0,
+      bottom: 0,
       child: Offstage(
         offstage: false,
         child: Container(
-          padding: EdgeInsets.all(8),
+          color: color.withOpacity(.9),
+          padding: EdgeInsets.all(6),
           child: Row(
             children: [
               buildConnectivity(),
               const Expanded(child: SizedBox()),
-              Text(
-                "${(ref.read(provider).progress * 100).toStringAsFixed(0)}%",
-                style: TextStyle(
-                  fontSize: 12,
-                  height: 1.0,
-                  color: Colors.black.withOpacity(.6),
+              Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: Text(
+                  "${(ref.read(provider).progress * 100).toStringAsFixed(0)}%",
+                  style: TextStyle(
+                    fontSize: 12,
+                    height: 1.0,
+                    color: Colors.black.withOpacity(.6),
+                  ),
                 ),
               ),
             ],
@@ -136,7 +141,7 @@ class _ReaderScreenState extends ConsumerState<AppReaderScreen> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          'time',
+          '',
           style: TextStyle(
               fontSize: 12, height: 1.0, color: Colors.black.withOpacity(.6)),
         ),

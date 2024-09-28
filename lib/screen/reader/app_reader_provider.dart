@@ -28,7 +28,7 @@ class AppReader extends _$AppReader {
     final themeId = sp.getString("themeId");
     final textStyle = TextStyle(
         fontSize: sp.getDouble("fontSize") ?? 18,
-        height: sp.getDouble("lineHeight") ?? 1.7);
+        height: sp.getDouble("lineHeight") ?? 2.3);
     scrollController.addListener(_listenVertical);
     return Reader(
         name: arg.$1,
@@ -180,6 +180,15 @@ class AppReader extends _$AppReader {
     await initChapter(cIndex: index);
     ref.read(readerMenuStateProvider.notifier).reset();
     scrollController.jumpTo(0);
+  }
+
+  void updateTheme(String themeId) {
+    state = state.copyWith(themeId: themeId);
+  }
+
+
+  void updateTextStyle(TextStyle textStyle) {
+    state = state.copyWith(textStyle: textStyle);
   }
 
   onTap() {

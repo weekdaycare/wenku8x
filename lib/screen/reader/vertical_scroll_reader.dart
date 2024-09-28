@@ -99,7 +99,7 @@ class _VerticalScrollReaderState extends ConsumerState<VerticalScrollReader>
       child: SizedBox(
         height: double.infinity,
         child: Padding(
-          padding: const EdgeInsets.all(12.0),
+          padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 0),
           child: widget.isImage? _buildImageView(images.value): SingleChildScrollView(
             controller: widget.controller,
             child: Text(

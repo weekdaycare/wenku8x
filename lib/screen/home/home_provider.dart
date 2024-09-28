@@ -115,7 +115,10 @@ class MyBooksNotifier extends StateNotifier<List<BookItem>> {
   }
 
   void updateBookReadTime(int index, int time) {
-    state = [state[index].copyWith(readTime: time), ...state];
+   state[index] = state[index].copyWith(readTime: time);
+   // trigger update
+   state = [...state];
+   state.sort((a, b) => b.readTime.compareTo(a.readTime));
     _writeBooksToDB();
   }
 }

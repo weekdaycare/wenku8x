@@ -149,7 +149,7 @@ class _MenuTextState extends ConsumerState<MenuText>
                                   .read(widget.provider.notifier)
                                   .updateTextStyle(
                                       reader.textStyle.copyWith(height: val));
-                              sp.setDouble('fontHeight', val);
+                              sp.setDouble('lineHeight', val);
                             })),
                   ),
                   Padding(

@@ -8,6 +8,7 @@ import 'package:wenku8x/screen/home/detail_modal.dart';
 import 'package:wenku8x/screen/home/home_provider.dart';
 import 'package:wenku8x/theme/extend.dart';
 import 'package:wenku8x/utils/flash.dart';
+import 'package:wenku8x/utils/log.dart';
 
 import 'book_item.dart';
 
@@ -23,6 +24,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     EasyRefreshController controller = EasyRefreshController();
     var books = ref.watch<List<BookItem>>(myBooksProvider);
+    Log.i(books);
     return Scaffold(
         backgroundColor:
             Theme.of(context).extension<ExtendColors>()!.elevationBackground,
