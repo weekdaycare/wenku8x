@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -13,6 +15,7 @@ import 'package:wenku8x/screen/reader/menu_bars/menu_top.dart';
 import 'package:wenku8x/screen/reader/menu_bars/progress_bar.dart';
 import 'package:wenku8x/screen/reader/menu_bars/progress_bar/app_progress_bar.dart';
 import 'package:wenku8x/screen/reader/scroll_reader.dart';
+import 'package:wenku8x/screen/reader/timer_provider.dart';
 import 'package:wenku8x/screen/reader/vertical_scroll_reader.dart';
 import 'package:wenku8x/utils/log.dart';
 
@@ -52,7 +55,12 @@ class _ReaderScreenState extends ConsumerState<AppReaderScreen> {
           ref.read(provider.notifier).jumpFromProgress();
         });
       });
-      return null;
+      final timer = Timer.periodic(Duration(seconds: 8), (timer) {
+        ref.read(appTimerProvider.notifier).update();
+      });
+      return () {
+        timer.cancel();
+      };
     }, []);
 
     return PopScope(
@@ -102,6 +110,42 @@ class _ReaderScreenState extends ConsumerState<AppReaderScreen> {
     );
   }
 
+  Widget _buildHeader(AppReaderProvider provider) {
+    final color = ref.read(provider).theme.colorScheme.background;
+    return Positioned(
+      right: 0,
+      left: 0,
+      bottom: 0,
+      child: Offstage(
+        offstage: false,
+        child: Container(
+          color: color.withOpacity(.9),
+          padding: EdgeInsets.all(6),
+          child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 8),
+                child: buildConnectivity(),
+              ),
+              const Expanded(child: SizedBox()),
+              Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: Text(
+                  "${(ref.read(provider).progress * 100).toStringAsFixed(0)}%",
+                  style: TextStyle(
+                    fontSize: 12,
+                    height: 1.0,
+                    color: Colors.black.withOpacity(.6),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _buildBottomStatus(AppReaderProvider provider) {
     final color = ref.read(provider).theme.colorScheme.background;
     return Positioned(
@@ -115,7 +159,10 @@ class _ReaderScreenState extends ConsumerState<AppReaderScreen> {
           padding: EdgeInsets.all(6),
           child: Row(
             children: [
-              buildConnectivity(),
+              Padding(
+                padding: const EdgeInsets.only(left: 8),
+                child: buildConnectivity(),
+              ),
               const Expanded(child: SizedBox()),
               Padding(
                 padding: const EdgeInsets.only(right: 8),
@@ -136,12 +183,13 @@ class _ReaderScreenState extends ConsumerState<AppReaderScreen> {
   }
 
   Widget buildConnectivity() {
+    final appTimer = ref.watch(appTimerProvider);
     return Row(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          '',
+          "${appTimer.hour.toString().padLeft(2, '0')}:${appTimer.minute.toString().padLeft(2, '0')}",
           style: TextStyle(
               fontSize: 12, height: 1.0, color: Colors.black.withOpacity(.6)),
         ),
@@ -149,7 +197,9 @@ class _ReaderScreenState extends ConsumerState<AppReaderScreen> {
     );
   }
 
-  void _listenVertical(ScrollController scrollController,) {
+  void _listenVertical(
+    ScrollController scrollController,
+  ) {
     if (scrollController.position.maxScrollExtent > 0) {
       progress = scrollController.position.pixels /
           scrollController.position.maxScrollExtent;
