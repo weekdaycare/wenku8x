@@ -6,6 +6,22 @@ part of 'app_reader_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+String _$readerProgressHash() => r'dd761661fac2622a670ca6037dccf826b9cdf223';
+
+/// See also [ReaderProgress].
+@ProviderFor(ReaderProgress)
+final readerProgressProvider =
+    AutoDisposeNotifierProvider<ReaderProgress, double>.internal(
+  ReaderProgress.new,
+  name: r'readerProgressProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$readerProgressHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$ReaderProgress = AutoDisposeNotifier<double>;
 String _$appReaderHash() => r'9721122980e2101da29c7e0453926a36dcd0082c';
 
 /// Copied from Dart SDK

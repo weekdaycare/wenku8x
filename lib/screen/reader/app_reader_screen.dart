@@ -75,19 +75,19 @@ class _ReaderScreenState extends ConsumerState<AppReaderScreen> {
       canPop: false,
       onPopInvoked: (didPop) async {
         if (didPop) return;
-       if(ref.read(readerMenuStateProvider).parentMenuVisible) {
-         ref.read(readerMenuStateProvider.notifier).reset();
-         return;
-       }
+        if (ref.read(readerMenuStateProvider).parentMenuVisible) {
+          ref.read(readerMenuStateProvider.notifier).reset();
+          return;
+        }
         if (ref.read(readerMenuStateProvider).subMenusVisible) {
           ref.read(readerMenuStateProvider.notifier).dispatch(
-            menuCatalogVisible: false,
-            menuThemeVisible: false,
-            menuTextVisible: false,
-            menuConfigVisible: false,
-            menuTopVisible: true,
-            menuBottomVisible: true,
-          );
+                menuCatalogVisible: false,
+                menuThemeVisible: false,
+                menuTextVisible: false,
+                menuConfigVisible: false,
+                menuTopVisible: true,
+                menuBottomVisible: true,
+              );
           return;
         }
         await ref.read(provider.notifier).saveMetaFile();
@@ -188,14 +188,16 @@ class _ReaderScreenState extends ConsumerState<AppReaderScreen> {
               const Expanded(child: SizedBox()),
               Padding(
                 padding: const EdgeInsets.only(right: 8),
-                child: Text(
-                  "${(ref.read(provider).progress * 100).toStringAsFixed(0)}%",
-                  style: TextStyle(
-                    fontSize: 12,
-                    height: 1.0,
-                    color: Colors.black.withOpacity(.6),
-                  ),
-                ),
+                child: Consumer(builder: (context, ref, _) {
+                  return Text(
+                    "${(ref.watch(readerProgressProvider) * 100).toStringAsFixed(0)}%",
+                    style: TextStyle(
+                      fontSize: 12,
+                      height: 1.0,
+                      color: Colors.black.withOpacity(.6),
+                    ),
+                  );
+                }),
               ),
             ],
           ),
@@ -217,15 +219,5 @@ class _ReaderScreenState extends ConsumerState<AppReaderScreen> {
         ),
       ],
     );
-  }
-
-  void _listenVertical(
-    ScrollController scrollController,
-  ) {
-    if (scrollController.position.maxScrollExtent > 0) {
-      progress = scrollController.position.pixels /
-          scrollController.position.maxScrollExtent;
-    }
-    Log.i(progress);
   }
 }

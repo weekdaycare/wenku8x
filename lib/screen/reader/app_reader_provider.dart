@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 import 'dart:math';
 
@@ -14,6 +15,13 @@ import '../../http/api.dart';
 
 part 'app_reader_provider.g.dart';
 
+@riverpod
+class ReaderProgress extends _$ReaderProgress {
+  @override
+  double build() {
+    return 0.0;
+  }
+}
 @riverpod
 class AppReader extends _$AppReader {
   (List<String>, String, String) cachedTextAndTitle = ([], "", "");
@@ -42,13 +50,14 @@ class AppReader extends _$AppReader {
     final docDir = await getApplicationDocumentsDirectory();
     metaFile = File("${bookDir.path}/meta.json");
     var exist = await metaFile.exists();
+    final progress = ref.read(readerProgressProvider);
     if (exist) {
       await metaFile.writeAsString(jsonEncode(
-          RecordMeta(cIndex: state.cIndex, progress: state.progress)));
+          RecordMeta(cIndex: state.cIndex, progress: progress)));
     } else {
       await metaFile.create();
       await metaFile.writeAsString(jsonEncode(
-          RecordMeta(cIndex: state.cIndex, progress: state.progress)));
+          RecordMeta(cIndex: state.cIndex, progress: progress)));
     }
   }
 
@@ -161,7 +170,8 @@ class AppReader extends _$AppReader {
     if (scrollController.position.maxScrollExtent > 0) {
       var progress = scrollController.position.pixels /
           scrollController.position.maxScrollExtent;
-      state = state.copyWith(progress: progress);
+      ref.read(readerProgressProvider.notifier).state = progress;
+      // state = state.copyWith(progress: progress);
       // Log.i(progress);
     }
   }
@@ -172,8 +182,7 @@ class AppReader extends _$AppReader {
         progress0 * scrollController.position.maxScrollExtent;
     Log.i(targetPosition);
     scrollController.jumpTo(targetPosition);
-    state =
-        state.copyWith(progress: (progress ?? state.progress).clamp(0, 100));
+    ref.read(readerProgressProvider.notifier).state = progress0.clamp(0, 100);
   }
 
   void jumpToIndex(int index) async {
