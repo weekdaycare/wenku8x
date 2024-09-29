@@ -45,11 +45,13 @@ class _ReaderScreenState extends ConsumerState<AppReaderScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Log.i('scream build');
     final provider =
         AppReaderProvider((widget.name, widget.aid, widget.cIndex));
     final reader = ref.watch(provider);
     SystemChrome.setEnabledSystemUIMode(
-      SystemUiMode.immersive,
+      SystemUiMode.manual,
+      overlays: [],
     );
 
     useEffect(() {
@@ -61,7 +63,7 @@ class _ReaderScreenState extends ConsumerState<AppReaderScreen> {
           ref.read(provider.notifier).jumpFromProgress();
         });
       });
-      final timer = Timer.periodic(Duration(seconds: 8), (timer) {
+      final timer = Timer.periodic(Duration(seconds: 61), (timer) {
         ref.read(appTimerProvider.notifier).update();
       });
       return () {
@@ -73,6 +75,21 @@ class _ReaderScreenState extends ConsumerState<AppReaderScreen> {
       canPop: false,
       onPopInvoked: (didPop) async {
         if (didPop) return;
+       if(ref.read(readerMenuStateProvider).parentMenuVisible) {
+         ref.read(readerMenuStateProvider.notifier).reset();
+         return;
+       }
+        if (ref.read(readerMenuStateProvider).subMenusVisible) {
+          ref.read(readerMenuStateProvider.notifier).dispatch(
+            menuCatalogVisible: false,
+            menuThemeVisible: false,
+            menuTextVisible: false,
+            menuConfigVisible: false,
+            menuTopVisible: true,
+            menuBottomVisible: true,
+          );
+          return;
+        }
         await ref.read(provider.notifier).saveMetaFile();
         Navigator.pop(context);
       },
