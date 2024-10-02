@@ -24,7 +24,7 @@ class _ProgressBarState extends ConsumerState<AppProgressBar> {
         readerMenuStateProvider.select((value) => value.progressVisible));
     final bottomHeight = ref.watch(
         readerMenuStateProvider.select((value) => value.bottomBarHeight));
-    final progress = ref.watch(widget.provider).progress * 100;
+    final progress = ref.watch(readerProgressProvider) * 100;
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         bottomPos.value = -context.findRenderObject()!.paintBounds.size.height;

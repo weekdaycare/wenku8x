@@ -6,6 +6,7 @@ import 'package:wenku8x/app/app_style.dart';
 import 'package:wenku8x/screen/reader/app_reader_provider.dart';
 
 import 'package:wenku8x/utils/log.dart';
+import 'package:wenku8x/widgets/image_with_retry.dart';
 
 class VerticalScrollReader extends StatefulHookConsumerWidget {
   const VerticalScrollReader(
@@ -41,7 +42,7 @@ class _VerticalScrollReaderState extends ConsumerState<VerticalScrollReader>
     Match? match = regex.firstMatch(textLine);
     if (match != null) {
       String imageUrl = match.group(1) ?? '';
-      // imageUrl = imageUrl.replaceAll("tu.777743.xyz", "pic.wenku8.cc");
+      imageUrl = imageUrl.replaceAll("tu.777743.xyz", "pic.wenku8.com");
       return (true, imageUrl);
     } else {
       return (false, textLine);
@@ -120,6 +121,8 @@ class _VerticalScrollReaderState extends ConsumerState<VerticalScrollReader>
         padding: EdgeInsets.zero,
         separatorBuilder: (_, i) => AppStyle.vGap4,
         itemBuilder: (_, i) {
+          Log.i(images[i]);
+          // return ImageWithRetry(imageUrl: images[i],maxRetries: 5);
           return Image.network(
             loadingBuilder: (context, child, loadingProgress) {
               return loadingProgress == null
@@ -134,6 +137,7 @@ class _VerticalScrollReaderState extends ConsumerState<VerticalScrollReader>
                     );
             },
               errorBuilder: (context, error, stackTrace) {
+              Log.e(error);
               return  Center(
                 child: Icon(Icons.broken_image),
               );

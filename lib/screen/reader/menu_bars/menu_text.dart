@@ -83,7 +83,7 @@ class _MenuTextState extends ConsumerState<MenuText>
                         child: Slider(
                             value: sizeVal.value,
                             min: 14,
-                            max: 32,
+                            max: 50,
                             onChanged: (val) {
                               sizeVal.value = val;
                             },
