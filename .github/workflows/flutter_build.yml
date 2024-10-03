@@ -11,12 +11,13 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Set up Flutter
-      uses: subosito/flutter-action@v1
+      uses: subosito/flutter-action@v2
       with:
         channel: 'stable'
+        flutter-version: 3.13.6
 
     - name: Install dependencies
       run: flutter pub get
@@ -28,7 +29,7 @@ jobs:
       run: flutter build apk --release --target-platform=android-arm64
 
     - name: Upload APK artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: app-release.apk
         path: build/app/outputs/flutter-apk/app-release.apk
@@ -38,12 +39,13 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Set up Flutter
-      uses: subosito/flutter-action@v1
+      uses: subosito/flutter-action@v2
       with:
         channel: 'stable'
+        flutter-version: 3.13.6
 
     - name: Install dependencies
       run: flutter pub get
@@ -62,7 +64,7 @@ jobs:
         mv Runner.zip Runner.ipa
 
     - name: Upload IPA artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: Runner.ipa
         path: Runner.ipa
@@ -73,7 +75,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Download APK artifact
       uses: actions/download-artifact@v2
