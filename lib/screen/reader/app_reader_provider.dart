@@ -22,6 +22,7 @@ class ReaderProgress extends _$ReaderProgress {
     return 0.0;
   }
 }
+
 @riverpod
 class AppReader extends _$AppReader {
   (List<String>, String, String) cachedTextAndTitle = ([], "", "");
@@ -52,13 +53,20 @@ class AppReader extends _$AppReader {
     var exist = await metaFile.exists();
     final progress = ref.read(readerProgressProvider);
     if (exist) {
-      await metaFile.writeAsString(jsonEncode(
-          RecordMeta(cIndex: state.cIndex, progress: progress)));
+      await metaFile.writeAsString(
+          jsonEncode(RecordMeta(cIndex: state.cIndex, progress: progress)));
     } else {
       await metaFile.create();
-      await metaFile.writeAsString(jsonEncode(
-          RecordMeta(cIndex: state.cIndex, progress: progress)));
+      await metaFile.writeAsString(
+          jsonEncode(RecordMeta(cIndex: state.cIndex, progress: progress)));
     }
+  }
+
+  void updateTextWeight() {
+    state = state.copyWith(
+        textStyle: state.textStyle.copyWith(
+            fontWeight:
+                FontWeight.normal));
   }
 
   Future initCatalog() async {
@@ -72,19 +80,16 @@ class AppReader extends _$AppReader {
             : const RecordMeta());
     final file = File("${bookDir.path}/catalog.json");
     List<Chapter> chapters = [];
-    chapters = await API.getNovelIndex(state.aid);
     if (file.existsSync()) {
       // 如果存在目录文件，直接从文件读取并更新目录
-     var  localChapters =
+      var localChapters =
           (json.decode(file.readAsStringSync()) as List<dynamic>).map((e) {
         return Chapter(cid: e['cid'], name: e['name']);
       }).toList();
-     if(localChapters.length < chapters.length){
-       file.writeAsString(jsonEncode(chapters));
-     }else {
-       chapters = localChapters;
-     }
+      chapters = localChapters;
+      _updateCapter(state.aid, localChapters.length, file);
     } else {
+      chapters = await API.getNovelIndex(state.aid);
       if (!bookDir.existsSync()) bookDir.createSync(recursive: true);
       file.writeAsString(jsonEncode(chapters));
     }
@@ -95,9 +100,11 @@ class AppReader extends _$AppReader {
     Log.i(state);
   }
 
-  void _updateCapter(String aid,int localLength) async{
-   var chapters = await API.getNovelIndex(state.aid);
-
+  void _updateCapter(String aid, int localLength, File file) async {
+    var chapters = await API.getNovelIndex(state.aid);
+    if (localLength < chapters.length) {
+      file.writeAsString(jsonEncode(chapters));
+    }
   }
 
   (bool, String) testImage(String textLine) {
@@ -204,7 +211,6 @@ class AppReader extends _$AppReader {
   void updateTheme(String themeId) {
     state = state.copyWith(themeId: themeId);
   }
-
 
   void updateTextStyle(TextStyle textStyle) {
     state = state.copyWith(textStyle: textStyle);

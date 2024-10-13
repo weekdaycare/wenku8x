@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wenku8x/main.dart';
+import 'package:wenku8x/screen/reader/app_reader_provider.dart';
 
 import '../reader_provider.dart';
 
@@ -190,7 +191,9 @@ class _MenuTextState extends ConsumerState<MenuText>
                                       Theme.of(context).colorScheme.background,
                                   minimumSize: const Size(148, 24),
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  ref.read(widget.provider.notifier).updateTextWeight();
+                                },
                                 child: Text(
                                   "系统字体",
                                   style: TextStyle(
