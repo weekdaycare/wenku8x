@@ -72,15 +72,20 @@ class AppReader extends _$AppReader {
             : const RecordMeta());
     final file = File("${bookDir.path}/catalog.json");
     List<Chapter> chapters = [];
+    chapters = await API.getNovelIndex(state.aid);
     if (file.existsSync()) {
       // 如果存在目录文件，直接从文件读取并更新目录
-      chapters =
+     var  localChapters =
           (json.decode(file.readAsStringSync()) as List<dynamic>).map((e) {
         return Chapter(cid: e['cid'], name: e['name']);
       }).toList();
+     if(localChapters.length < chapters.length){
+       file.writeAsString(jsonEncode(chapters));
+     }else {
+       chapters = localChapters;
+     }
     } else {
       if (!bookDir.existsSync()) bookDir.createSync(recursive: true);
-      chapters = await API.getNovelIndex(state.aid);
       file.writeAsString(jsonEncode(chapters));
     }
     state = state.copyWith(
@@ -88,6 +93,11 @@ class AppReader extends _$AppReader {
         cIndex: recordMeta.cIndex,
         progress: recordMeta.progress);
     Log.i(state);
+  }
+
+  void _updateCapter(String aid,int localLength) async{
+   var chapters = await API.getNovelIndex(state.aid);
+
   }
 
   (bool, String) testImage(String textLine) {
