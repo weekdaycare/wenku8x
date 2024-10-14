@@ -97,8 +97,8 @@ class MyBooksNotifier extends StateNotifier<List<BookItem>> {
     state.sort((a, b) => b.readTime.compareTo(a.readTime));
   }
 
-  void addBook(BookItem book) {
-    API.addToBookShelf(book.aid);
+  void addBook(BookItem book) async {
+    await API.addToBookShelf(book.aid);
     state = [book, ...state];
     // _writeBooksToDB();
     _isar.writeTxn(() async {
@@ -115,10 +115,10 @@ class MyBooksNotifier extends StateNotifier<List<BookItem>> {
   }
 
   void updateBookReadTime(int index, int time) {
-   state[index] = state[index].copyWith(readTime: time);
-   // trigger update
-   state = [...state];
-   state.sort((a, b) => b.readTime.compareTo(a.readTime));
+    state[index] = state[index].copyWith(readTime: time);
+    // trigger update
+    state = [...state];
+    state.sort((a, b) => b.readTime.compareTo(a.readTime));
     _writeBooksToDB();
   }
 }

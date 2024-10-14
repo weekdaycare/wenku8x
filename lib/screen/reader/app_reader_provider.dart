@@ -37,7 +37,9 @@ class AppReader extends _$AppReader {
     final themeId = sp.getString("themeId");
     final textStyle = TextStyle(
         fontSize: sp.getDouble("fontSize") ?? 18,
-        height: sp.getDouble("lineHeight") ?? 2.3);
+        height: sp.getDouble("lineHeight") ?? 2.3,
+      fontFamily: sp.getString("fontFamily") ?? ''
+    );
     scrollController.addListener(_listenVertical);
     return Reader(
         name: arg.$1,
@@ -63,10 +65,18 @@ class AppReader extends _$AppReader {
   }
 
   void updateTextWeight() {
-    state = state.copyWith(
-        textStyle: state.textStyle.copyWith(
-            fontWeight:
-                FontWeight.normal));
+    Log.w(state.textStyle.fontFamily);
+    if (state.textStyle.fontFamily == 'HarmonyOS') {
+      state = state.copyWith(
+          textStyle: state.textStyle.copyWith(
+        fontFamily: '',
+      ));
+    }else {
+      state = state.copyWith(
+          textStyle: state.textStyle
+              .copyWith(fontFamily: 'HarmonyOS', fontWeight: FontWeight.normal));
+    }
+    sp.setString( "fontFamily", state.textStyle.fontFamily?? "");
   }
 
   Future initCatalog() async {

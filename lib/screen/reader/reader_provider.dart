@@ -205,7 +205,9 @@ class ReaderNotifier
     final themeId = sp.getString("themeId");
     final textStyle = TextStyle(
         fontSize: sp.getDouble("fontSize") ?? 18,
-        height: sp.getDouble("lineHeight") ?? 1.7);
+        height: sp.getDouble("lineHeight") ?? 1.7,
+      fontFamily: sp.getString("fontFamily") ?? "",
+    );
     return Reader(
         name: arg.$1,
         aid: arg.$2,
