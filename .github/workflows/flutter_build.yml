@@ -6,33 +6,6 @@ on:
       - 'v*.*'
 
 jobs:
-  build-android:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-
-    - name: Set up Flutter
-      uses: subosito/flutter-action@v2
-      with:
-        channel: 'stable'
-
-    - name: Install dependencies
-      run: flutter pub get
-
-    - name: Upgrade dependencies
-      run: flutter pub upgrade
-
-    - name: Build APK
-      run: flutter build apk --release --target-platform=android-arm64
-
-    - name: Upload APK artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: app-release.apk
-        path: build/app/outputs/flutter-apk/app-release.apk
-
   build-ios:
     runs-on: macos-latest
 
@@ -70,7 +43,7 @@ jobs:
 
   create-release:
     runs-on: ubuntu-latest
-    needs: [build-android, build-ios]
+    needs: [build-ios]
 
     steps:
     - name: Checkout repository
