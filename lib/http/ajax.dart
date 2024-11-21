@@ -66,10 +66,20 @@ class Ajax {
       "实际参数": _encrypt(param)
     }, "请求参数");
     try {
-      var res = download
-          ? await _client.download("", savePath,
-              data: formData, options: Options(method: "POST"))
-          : (await _client.post("", data: formData));
+      var res;
+      if (download) {
+        try {
+          res = await _client.download("", savePath,
+              data: formData, options: Options(method: "POST"));
+        } catch (e) {
+          if (e is DioError && e.response?.statusCode == 500) {
+            return null;
+          }
+          rethrow;
+        }
+      } else {
+        res = await _client.post("", data: formData);
+      }
       if (isXml) {
         try {
           return XmlDocument.parse(res.data.toString());
@@ -89,12 +99,10 @@ class Ajax {
           }
           return null;
         }
-      } else {
-        if (isLogin) {
+      } else if (isLogin) {
           return res.data.toString() == "1";
-        } else {
-          return res.data.toString();
-        }
+      } else {
+        return res.data.toString();
       }
     } catch (err) {
       Show.error(err.toString());
