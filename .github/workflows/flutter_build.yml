@@ -28,14 +28,13 @@ jobs:
       run: |
         mkdir -p Payload
         mv build/ios/iphoneos/Runner.app Payload/
-        zip -r Runner.zip Payload
-        mv Runner.zip Runner.ipa
+        zip -r Runner.ipa Payload
 
     - name: Upload IPA artifact
       uses: actions/upload-artifact@v4
       with:
         name: Runner.ipa
-        path: Runner.ipa
+        path: ./
 
   create-release:
     runs-on: ubuntu-latest
@@ -46,7 +45,7 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Download IPA artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: Runner.ipa
         path: ./
