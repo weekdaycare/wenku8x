@@ -967,7 +967,7 @@ class __$$ReaderThemeImplCopyWithImpl<$Res>
 
 class _$ReaderThemeImpl with DiagnosticableTreeMixin implements _ReaderTheme {
   const _$ReaderThemeImpl(
-      {required this.name, required this.id, required this.theme});
+      {required this.name, required this.id, required this.theme, required this.darkTheme});
 
   @override
   final String name;
@@ -1015,7 +1015,8 @@ abstract class _ReaderTheme implements ReaderTheme {
   const factory _ReaderTheme(
       {required final String name,
       required final String id,
-      required final ThemeData theme}) = _$ReaderThemeImpl;
+      required final ThemeData theme,
+      required final ThemeData darkTheme}) = _$ReaderThemeImpl;
 
   @override
   String get name;
