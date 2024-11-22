@@ -14,6 +14,7 @@ import 'package:wenku8x/screen/reader/themes/glacier.dart';
 import 'package:wenku8x/screen/reader/themes/mulberry.dart';
 import 'package:wenku8x/screen/reader/themes/spring.dart';
 import 'package:wenku8x/screen/reader/themes/walnut.dart';
+import 'package:wenku8x/screen/reader/themes/dark.dart';
 import 'package:wenku8x/utils/flash.dart';
 import 'package:wenku8x/utils/log.dart';
 import 'package:wenku8x/utils/render.dart';
@@ -718,6 +719,7 @@ final List<ReaderTheme> readerThemes = [
   ReaderTheme(name: '冰川', id: "glacier", theme: glacierTheme),
   ReaderTheme(name: '樱桃', id: "cherry", theme: cherryTheme),
   ReaderTheme(name: '胡桃', id: "walnut", theme: walnutTheme),
+  ReaderTheme(name: '黑茶', id: "dark", theme: darkTheme),
 ];
 
 final loadingProvider = StateProvider.autoDispose<bool>((ref) {

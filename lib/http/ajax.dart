@@ -72,6 +72,7 @@ class Ajax {
           res = await _client.download("", savePath,
               data: formData, options: Options(method: "POST"));
         } catch (e) {
+          // 未设置头像
           if (e is DioError && e.response?.statusCode == 500) {
             return null;
           }
@@ -89,7 +90,7 @@ class Ajax {
             final username = sp.getString("username") ?? "";
             final password = sp.getString("password") ?? "";
             if (username.isNotEmpty && password.isNotEmpty) {
-              var res = await API.login(username, password);
+              res = await API.login(username, password);
               Log.d(res, "relogin");
               if (res) {
                 post(param, isXml: isXml);
@@ -105,8 +106,7 @@ class Ajax {
         return res.data.toString();
       }
     } catch (err) {
-      // Show.error(err.toString());
-      Log.e(err);
+      Show.error(err.toString());
       // GoRouter.of(NavigationService.navigatorKey.currentContext!)
       //     .go("/error/$err");
       rethrow;
