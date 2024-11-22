@@ -56,6 +56,7 @@ dependencies:
   material_color_utilities:
   isar_flutter_libs: ^3.1.0+1
   url_launcher: ^6.1.14
+  riverpod_annotation: ^2.6.1
 
 dev_dependencies:
   flutter_test:

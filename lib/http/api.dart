@@ -140,7 +140,7 @@ class API {
 
   static Future getUserAvatar() async {
     final docDir = await getApplicationDocumentsDirectory();
-    Log.i(docDir.path);
+    Log.e(docDir.path);
     await Ajax.post("action=avatar",
         isXml: false, download: true, savePath: "${docDir.path}/avatar.jpg");
   }

@@ -1227,7 +1227,7 @@ class _$ReaderConfigImpl with DiagnosticableTreeMixin implements _ReaderConfig {
       this.verticalScroll = false,
       this.flickScroll = false,
       this.simulationScroll = false,
-      this.buttonScroll = true,
+      this.buttonScroll = false,
       this.globalNext = false,
       this.fullScreen = false,
       this.keepScreenOn = false});

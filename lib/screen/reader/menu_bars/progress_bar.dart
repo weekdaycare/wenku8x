@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -21,7 +22,7 @@ class _ProgressBarState extends ConsumerState<ProgressBar> {
         readerMenuStateProvider.select((value) => value.progressVisible));
     final bottomHeight = ref.watch(
         readerMenuStateProvider.select((value) => value.bottomBarHeight));
-    final progress = ref.watch(progressProvider);
+    final progress = (ref.watch(progressProvider) as double)*100;
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         bottomPos.value = -context.findRenderObject()!.paintBounds.size.height;
@@ -67,18 +68,16 @@ class _ProgressBarState extends ConsumerState<ProgressBar> {
                     ),
                   ),
                   child: Slider(
-                    max: progress.totalPages.toDouble() - 1,
-                    value: progress.currentIndex.toDouble(),
-                    divisions: progress.totalPages,
+                    max: 100,
+                    value: min(progress, 100) ,
+                    divisions: 100,
                     onChanged: (value) {
                       ref
-                          .read(progressProvider.notifier)
-                          .updateProgress(value.round());
+                          .read(widget.provider.notifier)
+                          .jumpFromProgress(progress: value / 100);
                     },
                     onChangeEnd: (value) {
-                      ref
-                          .read(widget.provider.notifier)
-                          .jumpToPage(value.round());
+                      debugPrint("$value");
                     },
                   ),
                 )),

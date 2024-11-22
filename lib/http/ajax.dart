@@ -66,7 +66,7 @@ class Ajax {
       "实际参数": _encrypt(param)
     }, "请求参数");
     try {
-      var res;
+      Response res;
       if (download) {
         try {
           res = await _client.download("", savePath,
@@ -90,7 +90,7 @@ class Ajax {
             final username = sp.getString("username") ?? "";
             final password = sp.getString("password") ?? "";
             if (username.isNotEmpty && password.isNotEmpty) {
-              res = await API.login(username, password);
+              var res = await API.login(username, password);
               Log.d(res, "relogin");
               if (res) {
                 post(param, isXml: isXml);
