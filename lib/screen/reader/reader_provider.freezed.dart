@@ -871,6 +871,7 @@ mixin _$ReaderTheme {
   String get name => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
   ThemeData get theme => throw _privateConstructorUsedError;
+  ThemeData get darkTheme => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ReaderThemeCopyWith<ReaderTheme> get copyWith =>
@@ -883,7 +884,7 @@ abstract class $ReaderThemeCopyWith<$Res> {
           ReaderTheme value, $Res Function(ReaderTheme) then) =
       _$ReaderThemeCopyWithImpl<$Res, ReaderTheme>;
   @useResult
-  $Res call({String name, String id, ThemeData theme});
+  $Res call({String name, String id, ThemeData theme, ThemeData darkTheme});
 }
 
 /// @nodoc
@@ -902,6 +903,7 @@ class _$ReaderThemeCopyWithImpl<$Res, $Val extends ReaderTheme>
     Object? name = null,
     Object? id = null,
     Object? theme = null,
+    Object? darkTheme = null,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -916,6 +918,10 @@ class _$ReaderThemeCopyWithImpl<$Res, $Val extends ReaderTheme>
           ? _value.theme
           : theme // ignore: cast_nullable_to_non_nullable
               as ThemeData,
+      darkTheme: null == darkTheme
+          ? _value.darkTheme
+          : darkTheme // ignore: cast_nullable_to_non_nullable
+              as ThemeData,
     ) as $Val);
   }
 }
@@ -928,7 +934,7 @@ abstract class _$$ReaderThemeImplCopyWith<$Res>
       __$$ReaderThemeImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, String id, ThemeData theme});
+  $Res call({String name, String id, ThemeData theme, ThemeData darkTheme});
 }
 
 /// @nodoc
@@ -945,6 +951,7 @@ class __$$ReaderThemeImplCopyWithImpl<$Res>
     Object? name = null,
     Object? id = null,
     Object? theme = null,
+    Object? darkTheme = null,
   }) {
     return _then(_$ReaderThemeImpl(
       name: null == name
@@ -959,6 +966,10 @@ class __$$ReaderThemeImplCopyWithImpl<$Res>
           ? _value.theme
           : theme // ignore: cast_nullable_to_non_nullable
               as ThemeData,
+      darkTheme: null == darkTheme
+          ? _value.darkTheme
+          : darkTheme // ignore: cast_nullable_to_non_nullable
+              as ThemeData,
     ));
   }
 }
@@ -967,7 +978,10 @@ class __$$ReaderThemeImplCopyWithImpl<$Res>
 
 class _$ReaderThemeImpl with DiagnosticableTreeMixin implements _ReaderTheme {
   const _$ReaderThemeImpl(
-      {required this.name, required this.id, required this.theme, required this.darkTheme});
+      {required this.name,
+      required this.id,
+      required this.theme,
+      required this.darkTheme});
 
   @override
   final String name;
@@ -975,10 +989,12 @@ class _$ReaderThemeImpl with DiagnosticableTreeMixin implements _ReaderTheme {
   final String id;
   @override
   final ThemeData theme;
+  @override
+  final ThemeData darkTheme;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ReaderTheme(name: $name, id: $id, theme: $theme)';
+    return 'ReaderTheme(name: $name, id: $id, theme: $theme, darkTheme: $darkTheme)';
   }
 
   @override
@@ -988,7 +1004,8 @@ class _$ReaderThemeImpl with DiagnosticableTreeMixin implements _ReaderTheme {
       ..add(DiagnosticsProperty('type', 'ReaderTheme'))
       ..add(DiagnosticsProperty('name', name))
       ..add(DiagnosticsProperty('id', id))
-      ..add(DiagnosticsProperty('theme', theme));
+      ..add(DiagnosticsProperty('theme', theme))
+      ..add(DiagnosticsProperty('darkTheme', darkTheme));
   }
 
   @override
@@ -998,11 +1015,13 @@ class _$ReaderThemeImpl with DiagnosticableTreeMixin implements _ReaderTheme {
             other is _$ReaderThemeImpl &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.theme, theme) || other.theme == theme));
+            (identical(other.theme, theme) || other.theme == theme) &&
+            (identical(other.darkTheme, darkTheme) ||
+                other.darkTheme == darkTheme));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, name, id, theme);
+  int get hashCode => Object.hash(runtimeType, name, id, theme, darkTheme);
 
   @JsonKey(ignore: true)
   @override
@@ -1024,6 +1043,8 @@ abstract class _ReaderTheme implements ReaderTheme {
   String get id;
   @override
   ThemeData get theme;
+  @override
+  ThemeData get darkTheme;
   @override
   @JsonKey(ignore: true)
   _$$ReaderThemeImplCopyWith<_$ReaderThemeImpl> get copyWith =>
