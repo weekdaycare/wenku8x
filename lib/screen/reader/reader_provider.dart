@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:wenku8x/hooks/brightness.dart';
 import 'package:wenku8x/http/api.dart';
 import 'package:wenku8x/main.dart';
 import 'package:wenku8x/screen/profile/profile_provider.dart';
@@ -80,27 +81,22 @@ class Reader with _$Reader {
     final theme = readerThemes.firstWhere((element) => element.id == themeId);
     final configStr = sp.getString("config") ?? "{}";
     final config = Config.fromJson(jsonDecode(configStr));
-    return config.isDarkMode ? theme.darkTheme : theme.theme;
+
+    // 获取当前的亮暗模式
+    final isIOS = Platform.isIOS;
+    final Brightness currentBrightness = WidgetsBinding.instance.window.platformBrightness;
+    final bool isSystemDarkMode = currentBrightness == Brightness.dark;
+
+    bool useDarkTheme;
+    if (config.autoDarkMode) {
+      useDarkTheme = isSystemDarkMode;
+    } else {
+      useDarkTheme = isIOS ? !config.isDarkMode : config.isDarkMode;
+    }
+
+    return useDarkTheme ? theme.darkTheme : theme.theme;
   }
   
-  void updateTextWeight(dynamic state) {
-    Log.w(state.textStyle.fontFamily);
-
-    int currentFontIndex = 0;
-    currentFontIndex = (currentFontIndex + 1) % fontList.length; // 循环索引
-    String newFontFamily = fontList[currentFontIndex];
-
-    state = state.copyWith(
-        textStyle: state.textStyle.copyWith(
-            fontFamily: newFontFamily,
-            fontWeight: FontWeight.normal
-        )
-    );
-
-    // 保存新的字体系列到共享偏好
-    sp.setString("fontFamily", newFontFamily);
-  }
-
   TextStyle get computedTextStyle {
     return textStyle.copyWith(color: theme.colorScheme.onBackground);
   }
@@ -741,12 +737,6 @@ final List<ReaderTheme> readerThemes = [
   ReaderTheme(name: '冰川', id: "glacier", theme: glacierTheme, darkTheme: glacierDarkTheme),
   ReaderTheme(name: '樱桃', id: "cherry", theme: cherryTheme, darkTheme: cherryDarkTheme),
   ReaderTheme(name: '胡桃', id: "walnut", theme: walnutTheme, darkTheme: walnutDarkTheme),
-];
-
-final List<String> fontList = [
-  '',
-  'HarmonyOS',
-  'LXGWenkai',
 ];
 
 final loadingProvider = StateProvider.autoDispose<bool>((ref) {

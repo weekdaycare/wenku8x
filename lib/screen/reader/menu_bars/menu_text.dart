@@ -195,7 +195,7 @@ class _MenuTextState extends ConsumerState<MenuText>
                                   ref.read(widget.provider.notifier).updateTextWeight();
                                 },
                                 child: Text(
-                                  "系统字体",
+                                  "切换字体",
                                   style: TextStyle(
                                       fontSize: 12,
                                       color: Theme.of(context)

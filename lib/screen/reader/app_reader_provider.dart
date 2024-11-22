@@ -64,6 +64,23 @@ class AppReader extends _$AppReader {
     }
   }
 
+  void updateTextWeight() {
+    const List<String> fonts = ['', 'HarmonyOS', 'LXGWenKai'];
+    final currentFontFamily = state.textStyle.fontFamily ?? '';
+    final currentIndex = fonts.indexOf(currentFontFamily);
+    final nextIndex = (currentIndex + 1) % fonts.length;
+    final nextFontFamily = fonts[nextIndex];
+
+    state = state.copyWith(
+      textStyle: state.textStyle.copyWith(
+        fontFamily: nextFontFamily,
+        fontWeight: FontWeight.normal,
+      ),
+    );
+
+    sp.setString("fontFamily", nextFontFamily);
+  }
+
   Future initCatalog() async {
     final docDir = await getApplicationDocumentsDirectory();
     bookDir = Directory("${docDir.path}/books/${state.aid}");
