@@ -38,7 +38,7 @@ class AppReader extends _$AppReader {
     final textStyle = TextStyle(
         fontSize: sp.getDouble("fontSize") ?? 18,
         height: sp.getDouble("lineHeight") ?? 2.3,
-      fontFamily: sp.getString("fontFamily") ?? ''
+        fontFamily: sp.getString("fontFamily") ?? ''
     );
     scrollController.addListener(_listenVertical);
     return Reader(
@@ -66,17 +66,20 @@ class AppReader extends _$AppReader {
 
   void updateTextWeight() {
     Log.w(state.textStyle.fontFamily);
-    if (state.textStyle.fontFamily == 'HarmonyOS') {
-      state = state.copyWith(
-          textStyle: state.textStyle.copyWith(
-        fontFamily: '',
-      ));
-    }else {
-      state = state.copyWith(
-          textStyle: state.textStyle
-              .copyWith(fontFamily: 'HarmonyOS', fontWeight: FontWeight.normal));
-    }
-    sp.setString( "fontFamily", state.textStyle.fontFamily?? "");
+
+    int currentFontIndex = 0;
+    currentFontIndex = (currentFontIndex + 1) % fontList.length; // 循环索引
+    String newFontFamily = fontList[currentFontIndex];
+
+    state = state.copyWith(
+        textStyle: state.textStyle.copyWith(
+            fontFamily: newFontFamily,
+            fontWeight: FontWeight.normal
+        )
+    );
+
+    // 保存新的字体系列到共享偏好
+    sp.setString("fontFamily", newFontFamily);
   }
 
   Future initCatalog() async {

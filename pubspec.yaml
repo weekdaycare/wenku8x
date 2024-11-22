@@ -95,6 +95,9 @@ flutter:
     - family: HarmonyOS
       fonts:
         - asset: assets/fonts/HarmonyOS_Sans_SC_Regular.ttf
+    - family: LXGWenkai
+      fonts:
+        - asset: assets/fonts/LXGWWenKaiGBScreen.ttf
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

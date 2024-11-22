@@ -14,7 +14,6 @@ import 'package:wenku8x/screen/reader/themes/glacier.dart';
 import 'package:wenku8x/screen/reader/themes/mulberry.dart';
 import 'package:wenku8x/screen/reader/themes/spring.dart';
 import 'package:wenku8x/screen/reader/themes/walnut.dart';
-import 'package:wenku8x/screen/reader/themes/dark.dart';
 import 'package:wenku8x/utils/flash.dart';
 import 'package:wenku8x/utils/log.dart';
 import 'package:wenku8x/utils/render.dart';
@@ -77,7 +76,8 @@ class Reader with _$Reader {
   }) = _Reader;
 
   ThemeData get theme {
-    return readerThemes.firstWhere((element) => element.id == themeId).theme;
+    final theme = readerThemes.firstWhere((element) => element.id == themeId);
+    return isDarkMode ? theme.darkTheme : theme.theme;
   }
 
   TextStyle get computedTextStyle {
@@ -91,6 +91,7 @@ class ReaderTheme with _$ReaderTheme {
     required String name,
     required String id,
     required ThemeData theme,
+    required ThemeData darkTheme,
   }) = _ReaderTheme;
 }
 
@@ -714,12 +715,17 @@ final readerProvider = NotifierProvider.family
         ReaderNotifier.new);
 
 final List<ReaderTheme> readerThemes = [
-  ReaderTheme(name: '白茶', id: "mulberry", theme: mulberryTheme),
-  ReaderTheme(name: '春水', id: "spring", theme: springTheme),
-  ReaderTheme(name: '冰川', id: "glacier", theme: glacierTheme),
-  ReaderTheme(name: '樱桃', id: "cherry", theme: cherryTheme),
-  ReaderTheme(name: '胡桃', id: "walnut", theme: walnutTheme),
-  ReaderTheme(name: '黑茶', id: "dark", theme: darkTheme),
+  ReaderTheme(name: '白茶', id: "mulberry", theme: mulberryTheme, darkTheme: mulberryDarkTheme),
+  ReaderTheme(name: '春水', id: "spring", theme: springTheme, darkTheme: springDarkTheme),
+  ReaderTheme(name: '冰川', id: "glacier", theme: glacierTheme, darkTheme: glacierDarkTheme),
+  ReaderTheme(name: '樱桃', id: "cherry", theme: cherryTheme, darkTheme: cherryDarkTheme),
+  ReaderTheme(name: '胡桃', id: "walnut", theme: walnutTheme, darkTheme: walnutDarkTheme),
+];
+
+final List<String> fontList = [
+  '',
+  'HarmonyOS',
+  'LXGWenkai',
 ];
 
 final loadingProvider = StateProvider.autoDispose<bool>((ref) {
