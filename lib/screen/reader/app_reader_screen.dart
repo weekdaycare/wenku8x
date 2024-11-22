@@ -105,21 +105,22 @@ class _ReaderScreenState extends ConsumerState<AppReaderScreen> {
                       top: MediaQuery.of(context).padding.top,
                       bottom: MediaQuery.of(context).padding.bottom,
                     ),
-                    child: VerticalScrollReader(
-                      reader.cachedText,
-                      ref.read(provider.notifier).scrollController,
-                      reader.textStyle,
-                      provider,
-                      reader.isImage,
-                      loadNext: ref.read(provider.notifier).loadNextChapter,
-                      loadPrev: ref.read(provider.notifier).loadPreviousChapter,
-                    ),
-                    //   child: ScrollReader(
-                    //       reader.pages, ref.read(provider.notifier).pageController,
-                    //       loadNext: ref.read(provider.notifier).loadNextChapter,
-                    //       onPageScrollEnd:
-                    //           ref.read(provider.notifier).onPageScrollEnd),
-                  )),
+                    child: reader.config.verticalScroll
+                        ? VerticalScrollReader(
+                            reader.cachedText,
+                            ref.read(provider.notifier).scrollController,
+                            reader.textStyle,
+                            provider,
+                            reader.isImage,
+                            loadNext: ref.read(provider.notifier).loadNextChapter,
+                            loadPrev: ref.read(provider.notifier).loadPreviousChapter,
+                          )
+                        : ScrollReader(
+                            reader.pages,
+                            ref.read(readerProvider((widget.name, widget.aid, widget.cIndex)).notifier).pageController,
+                            loadNext: ref.read(provider.notifier).loadNextChapter,
+                            onPageScrollEnd: ref.read(readerProvider((widget.name, widget.aid, widget.cIndex)).notifier).onPageScrollEnd,
+                  ))),
               _buildHeader(provider),
               _buildBottomStatus(provider),
               const MenuBottom(),
