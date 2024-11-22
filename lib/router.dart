@@ -10,7 +10,6 @@ import 'package:wenku8x/screen/palette/palette_screen.dart';
 import 'package:wenku8x/screen/profile/profile_screen.dart';
 import 'package:wenku8x/screen/rank/rank_screen.dart';
 import 'package:wenku8x/screen/reader/app_reader_screen.dart';
-import 'package:wenku8x/screen/reader/reader_screen.dart';
 import 'package:wenku8x/screen/search/search_screen.dart';
 import 'package:wenku8x/service/navigation.dart';
 

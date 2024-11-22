@@ -138,7 +138,7 @@ class _VerticalScrollReaderState extends ConsumerState<VerticalScrollReader>
             },
               errorBuilder: (context, error, stackTrace) {
               Log.e(error);
-              return  Center(
+              return  const Center(
                 child: Icon(Icons.broken_image),
               );
               },

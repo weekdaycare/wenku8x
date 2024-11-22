@@ -89,7 +89,7 @@ class Reader with _$Reader {
   }
   
   TextStyle get computedTextStyle {
-    return textStyle.copyWith(color: theme.colorScheme.onBackground);
+    return textStyle.copyWith(color: theme.colorScheme.onSurface);
   }
 }
 
@@ -270,7 +270,7 @@ class ReaderNotifier
     textArr.removeRange(0, 2);
     file.writeAsString(text);
     // Log.i(text);
-    debugPrint("${text}");
+    debugPrint(text);
     return (textArr, state.catalog[index].name,text);
   }
 

@@ -63,7 +63,7 @@ class _ReaderScreenState extends ConsumerState<AppReaderScreen> {
           ref.read(provider.notifier).jumpFromProgress();
         });
       });
-      final timer = Timer.periodic(Duration(seconds: 61), (timer) {
+      final timer = Timer.periodic(const Duration(seconds: 61), (timer) {
         ref.read(appTimerProvider.notifier).update();
       });
       return () {
@@ -135,7 +135,7 @@ class _ReaderScreenState extends ConsumerState<AppReaderScreen> {
   }
 
   Widget _buildHeader(AppReaderProvider provider) {
-    final color = ref.read(provider).theme.colorScheme.background;
+    final color = ref.read(provider).theme.colorScheme.surface;
     return Positioned(
       right: 0,
       left: 0,
@@ -144,14 +144,14 @@ class _ReaderScreenState extends ConsumerState<AppReaderScreen> {
         offstage: false,
         child: Container(
           color: color.withOpacity(.9),
-          padding: EdgeInsets.all(6),
+          padding: const EdgeInsets.all(6),
           child: Row(
             children: [
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.only(left: 8),
                   child: Text(
-                    "${ref.read(provider).catalog[max(0, ref.read(provider).cIndex)].name}",
+                    ref.read(provider).catalog[max(0, ref.read(provider).cIndex)].name,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: 12,
@@ -169,7 +169,7 @@ class _ReaderScreenState extends ConsumerState<AppReaderScreen> {
   }
 
   Widget _buildBottomStatus(AppReaderProvider provider) {
-    final color = ref.read(provider).theme.colorScheme.background;
+    final color = ref.read(provider).theme.colorScheme.surface;
     return Positioned(
       right: 0,
       left: 0,
@@ -178,7 +178,7 @@ class _ReaderScreenState extends ConsumerState<AppReaderScreen> {
         offstage: false,
         child: Container(
           color: color.withOpacity(.9),
-          padding: EdgeInsets.all(6),
+          padding: const EdgeInsets.all(6),
           child: Row(
             children: [
               Padding(

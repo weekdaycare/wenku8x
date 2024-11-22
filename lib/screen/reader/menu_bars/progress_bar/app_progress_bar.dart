@@ -57,7 +57,7 @@ class _ProgressBarState extends ConsumerState<AppProgressBar> {
                   data: SliderTheme.of(context).copyWith(
                     activeTrackColor: Theme.of(context).colorScheme.outline,
                     inactiveTrackColor:
-                        Theme.of(context).colorScheme.background,
+                        Theme.of(context).colorScheme.surface,
                     trackHeight: 16,
                     valueIndicatorColor: Colors.transparent,
                     tickMarkShape: SliderTickMarkShape.noTickMark,
@@ -74,13 +74,13 @@ class _ProgressBarState extends ConsumerState<AppProgressBar> {
                     value: min(progress, 100) ,
                     divisions: 100,
                     onChanged: (value) {
-                      debugPrint("${value}");
+                      debugPrint("$value");
                       ref
                           .read(widget.provider.notifier)
                           .jumpFromProgress(progress: value / 100);
                     },
                     onChangeEnd: (value) {
-                      debugPrint("${value}");
+                      debugPrint("$value");
                     },
                   ),
                 )),

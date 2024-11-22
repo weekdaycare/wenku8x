@@ -34,9 +34,9 @@ class RankTabBar extends HookConsumerWidget implements PreferredSizeWidget {
                             onTabChange(e["flag"]);
                           },
                           style: buttonStyle.copyWith(
-                              backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                              backgroundColor: WidgetStateProperty.all(Colors.transparent),
                               side:
-                                  MaterialStateProperty.all(BorderSide(color: Theme.of(context).colorScheme.primary))),
+                                  WidgetStateProperty.all(BorderSide(color: Theme.of(context).colorScheme.primary))),
                           // side: MaterialStateProperty.all(BorderSide(color: Colors.transparent))),
                           child: Text(e["title"]),
                         ));

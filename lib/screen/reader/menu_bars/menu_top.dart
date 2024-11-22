@@ -49,7 +49,7 @@ class _MenuTopState extends ConsumerState<MenuTop>
                       },
                       icon: Icon(
                         Icons.arrow_back,
-                        color: Theme.of(context).colorScheme.onBackground,
+                        color: Theme.of(context).colorScheme.onSurface,
                       )),
                   Expanded(
                       child: Text(
@@ -58,7 +58,7 @@ class _MenuTopState extends ConsumerState<MenuTop>
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.onBackground,
+                        color: Theme.of(context).colorScheme.onSurface,
                         fontSize: 16),
                   )),
                   IconButton(onPressed: () {}, icon: const Icon(Icons.refresh)),

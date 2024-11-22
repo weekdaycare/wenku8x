@@ -54,7 +54,7 @@ class _ProgressBarState extends ConsumerState<ProgressBar> {
                   data: SliderTheme.of(context).copyWith(
                     activeTrackColor: Theme.of(context).colorScheme.outline,
                     inactiveTrackColor:
-                        Theme.of(context).colorScheme.background,
+                        Theme.of(context).colorScheme.surface,
                     trackHeight: 16,
                     valueIndicatorColor: Colors.transparent,
                     tickMarkShape: SliderTickMarkShape.noTickMark,

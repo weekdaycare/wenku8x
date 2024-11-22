@@ -63,7 +63,7 @@ class _PaletteScreenState extends ConsumerState<PaletteScreen> {
                 style: TextStyle(
                     fontSize: 34,
                     fontWeight: FontWeight.w500,
-                    color: Theme.of(context).colorScheme.onBackground),
+                    color: Theme.of(context).colorScheme.onSurface),
               )),
             ),
             SliverToBoxAdapter(

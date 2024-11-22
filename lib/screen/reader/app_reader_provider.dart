@@ -143,7 +143,7 @@ class AppReader extends _$AppReader {
     textArr.removeRange(0, 2);
     file.writeAsString(text);
     // Log.i(text);
-    debugPrint("${textArr}");
+    debugPrint("$textArr");
     return (textArr, state.catalog[index].name, text);
   }
 

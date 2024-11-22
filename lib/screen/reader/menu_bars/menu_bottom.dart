@@ -65,7 +65,7 @@ class _MenuBottomState extends ConsumerState<MenuBottom>
                           colorFilter: ColorFilter.mode(
                               state.menuCatalogVisible
                                   ? Theme.of(context).colorScheme.primary
-                                  : Theme.of(context).colorScheme.onBackground,
+                                  : Theme.of(context).colorScheme.onSurface,
                               BlendMode.srcIn))),
                 )),
                 Flexible(
@@ -89,7 +89,7 @@ class _MenuBottomState extends ConsumerState<MenuBottom>
                           colorFilter: ColorFilter.mode(
                               state.menuThemeVisible
                                   ? Theme.of(context).colorScheme.primary
-                                  : Theme.of(context).colorScheme.onBackground,
+                                  : Theme.of(context).colorScheme.onSurface,
                               BlendMode.srcIn))),
                 )),
                 Flexible(
@@ -113,7 +113,7 @@ class _MenuBottomState extends ConsumerState<MenuBottom>
                           colorFilter: ColorFilter.mode(
                               state.menuTextVisible
                                   ? Theme.of(context).colorScheme.primary
-                                  : Theme.of(context).colorScheme.onBackground,
+                                  : Theme.of(context).colorScheme.onSurface,
                               BlendMode.srcIn))),
                 )),
                 Flexible(
@@ -137,7 +137,7 @@ class _MenuBottomState extends ConsumerState<MenuBottom>
                           colorFilter: ColorFilter.mode(
                               state.menuConfigVisible
                                   ? Theme.of(context).colorScheme.primary
-                                  : Theme.of(context).colorScheme.onBackground,
+                                  : Theme.of(context).colorScheme.onSurface,
                               BlendMode.srcIn))),
                 )),
               ])

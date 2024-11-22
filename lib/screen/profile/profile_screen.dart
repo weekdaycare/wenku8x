@@ -79,7 +79,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                       style: TextStyle(
                                           color: Theme.of(context)
                                               .colorScheme
-                                              .onBackground,
+                                              .onSurface,
                                           fontSize: 16,
                                           fontWeight: FontWeight.w600,
                                           height: 1.8),

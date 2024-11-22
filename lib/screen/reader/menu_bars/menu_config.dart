@@ -47,7 +47,7 @@ class _MenuConfigState extends ConsumerState<MenuConfig>
                   "设置",
                   style: TextStyle(
                       fontSize: 16,
-                      color: Theme.of(context).colorScheme.onBackground,
+                      color: Theme.of(context).colorScheme.onSurface,
                       fontWeight: FontWeight.bold),
                 ),
               ),
@@ -124,7 +124,7 @@ class _MenuConfigState extends ConsumerState<MenuConfig>
           radius: 24,
           backgroundColor: enabled
               ? Theme.of(context).colorScheme.primary
-              : Theme.of(context).colorScheme.background,
+              : Theme.of(context).colorScheme.surface,
           child: IconButton(
             onPressed: () {
               if (notWork) Show.error("本功能暂未开放");

@@ -41,7 +41,7 @@ class ImageWithRetryState extends State<ImageWithRetry> {
 
       if (_retryCount < widget.maxRetries) {
         _retryCount++;
-        Future.delayed(Duration(seconds: 1), () => _loadImage());
+        Future.delayed(const Duration(seconds: 1), () => _loadImage());
       }
     }
   }
@@ -53,7 +53,7 @@ class ImageWithRetryState extends State<ImageWithRetry> {
       child: Stack(
         children: [
           if (_isLoading)
-            Center(
+            const Center(
               child: CircularProgressIndicator(),
             ),
           if (!_isLoading && !_isError)
@@ -73,13 +73,13 @@ class ImageWithRetryState extends State<ImageWithRetry> {
               },
               errorBuilder: (context, error, stackTrace) {
                 _isError = true;
-                return Center(
+                return const Center(
                   child: Icon(Icons.broken_image),
                 );
               },
             ),
           if (_isError)
-            Center(
+            const Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

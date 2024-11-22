@@ -73,7 +73,7 @@ class Ajax {
               data: formData, options: Options(method: "POST"));
         } catch (e) {
           // 未设置头像
-          if (e is DioError && e.response?.statusCode == 500) {
+          if (e is DioException && e.response?.statusCode == 500) {
             return null;
           }
           rethrow;

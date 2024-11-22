@@ -46,7 +46,7 @@ class _MenuPaletteState extends ConsumerState<MenuPalette> {
                 "主题",
                 style: TextStyle(
                     fontSize: 16,
-                    color: Theme.of(context).colorScheme.onBackground,
+                    color: Theme.of(context).colorScheme.onSurface,
                     fontWeight: FontWeight.bold),
               ),
             ),
@@ -68,7 +68,7 @@ class _MenuPaletteState extends ConsumerState<MenuPalette> {
                           border: Border.all(
                               width: 0.7,
                               color: theme.theme.colorScheme.outline),
-                          color: theme.theme.colorScheme.background
+                          color: theme.theme.colorScheme.surface
                               .withOpacity(0.5)),
                       padding: const EdgeInsets.symmetric(
                           vertical: 16, horizontal: 16),
@@ -97,7 +97,7 @@ class _MenuPaletteState extends ConsumerState<MenuPalette> {
                             Text(
                               theme.name.split("").join("\n"),
                               style: TextStyle(
-                                  color: theme.theme.colorScheme.onBackground),
+                                  color: theme.theme.colorScheme.onSurface),
                             )
                           ]),
                     ),

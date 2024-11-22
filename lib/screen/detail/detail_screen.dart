@@ -117,7 +117,7 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                       style: TextStyle(
                           fontSize: 18,
                           color:
-                              showAppBarTitle.value ? Theme.of(context).colorScheme.onBackground : Colors.transparent),
+                              showAppBarTitle.value ? Theme.of(context).colorScheme.onSurface : Colors.transparent),
                     ),
                   ),
                   SliverPadding(
@@ -145,7 +145,7 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w600,
-                                        color: Theme.of(context).colorScheme.onBackground,
+                                        color: Theme.of(context).colorScheme.onSurface,
                                         fontSize: 18),
                                   ),
                                   Padding(
@@ -273,7 +273,7 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                         child: Text(
                       "目录：共${detail.catalog!.length}章",
                       style: TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.w500, color: Theme.of(context).colorScheme.onBackground),
+                          fontSize: 16, fontWeight: FontWeight.w500, color: Theme.of(context).colorScheme.onSurface),
                     )),
                   ),
                   SliverList.builder(
@@ -295,7 +295,7 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                                   chapter.name,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(color: Theme.of(context).colorScheme.onBackground, fontSize: 16),
+                                  style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 16),
                                 ),
                                 Text(
                                   "cid-${chapter.cid}",

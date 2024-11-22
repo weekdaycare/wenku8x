@@ -83,7 +83,7 @@ class MyBooksNotifier extends StateNotifier<List<BookItem>> {
       for (int i = 0; i < res.length; i++) {
         final book = res[i];
         final matchingBook = state.firstWhere((b) => b.aid == book.aid,
-            orElse: () => BookItem(aid: 'none', readTime: 0, name: ''));
+            orElse: () => const BookItem(aid: 'none', readTime: 0, name: ''));
 
         if (matchingBook.aid != 'none') {
           res[i] = book.copyWith(readTime: matchingBook.readTime);
