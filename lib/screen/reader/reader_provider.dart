@@ -77,6 +77,7 @@ class Reader with _$Reader {
 
   ThemeData get theme {
     final theme = readerThemes.firstWhere((element) => element.id == themeId);
+    bool isDarkMode = sp.getBool('isDarkMode') ?? false;
     return isDarkMode ? theme.darkTheme : theme.theme;
   }
 
@@ -102,7 +103,7 @@ class ReaderConfig with _$ReaderConfig {
     @Default(false) bool verticalScroll, // 滚动翻页
     @Default(false) bool flickScroll, // 静止翻页
     @Default(false) bool simulationScroll, // 仿真翻页
-    @Default(false) bool buttonScroll, // 音量键翻页
+    @Default(true) bool buttonScroll, // 音量键翻页
     @Default(false) bool globalNext, // 全局下一页
     @Default(false) bool fullScreen, // 全屏显示
     @Default(false) bool keepScreenOn, // 屏幕常亮
