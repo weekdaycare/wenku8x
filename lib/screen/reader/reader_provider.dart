@@ -78,23 +78,14 @@ class Reader with _$Reader {
   }) = _Reader;
 
   ThemeData get theme {
-    final theme = readerThemes.firstWhere((element) => element.id == themeId);
-    final configStr = sp.getString("config") ?? "{}";
-    final config = Config.fromJson(jsonDecode(configStr));
+    final themeData = readerThemes.firstWhere((element) => element.id == themeId);
+    final config = Config.fromJson(jsonDecode(sp.getString("config") ?? "{}"));
 
-    // 获取当前的亮暗模式
-    final isIOS = Platform.isIOS;
-    final Brightness currentBrightness = WidgetsBinding.instance.window.platformBrightness;
-    final bool isSystemDarkMode = currentBrightness == Brightness.dark;
+    final useDarkTheme = config.autoDarkMode
+        ? WidgetsBinding.instance.window.platformBrightness == Brightness.dark
+        : config.isDarkMode;
 
-    bool useDarkTheme;
-    if (config.autoDarkMode) {
-      useDarkTheme = isSystemDarkMode;
-    } else {
-      useDarkTheme = isIOS ? !config.isDarkMode : config.isDarkMode;
-    }
-
-    return useDarkTheme ? theme.darkTheme : theme.theme;
+    return useDarkTheme ? themeData.darkTheme : themeData.theme;
   }
   
   TextStyle get computedTextStyle {

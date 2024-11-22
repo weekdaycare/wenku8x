@@ -49,7 +49,7 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: Runner.ipa
-        path: ./
+        path: ./Runner.ipa
 
     - name: Create Release
       id: create_release
