@@ -102,17 +102,7 @@ class _ReaderScreenState extends ConsumerState<AppReaderScreen> {
                       top: MediaQuery.of(context).padding.top,
                       bottom: MediaQuery.of(context).padding.bottom,
                     ),
-                    child: reader.config.verticalScroll
-                        ? VerticalScrollReader(
-                            reader.cachedText,
-                            ref.read(provider.notifier).scrollController,
-                            reader.textStyle,
-                            provider,
-                            reader.isImage,
-                            loadNext: ref.read(provider.notifier).loadNextChapter,
-                            loadPrev: ref.read(provider.notifier).loadPreviousChapter,
-                          )
-                        : ScrollReader(
+                    child: ScrollReader(
                             reader.pages,
                             ref.read(readerProvider((widget.name, widget.aid, widget.cIndex)).notifier).pageController,
                             loadNext: ref.read(provider.notifier).loadNextChapter,
