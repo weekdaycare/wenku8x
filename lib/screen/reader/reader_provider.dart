@@ -8,6 +8,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:wenku8x/http/api.dart';
 import 'package:wenku8x/main.dart';
+import 'package:wenku8x/screen/profile/profile_provider.dart';
 import 'package:wenku8x/screen/reader/menu_bars/progress_bar_provider.dart';
 import 'package:wenku8x/screen/reader/themes/cherry.dart';
 import 'package:wenku8x/screen/reader/themes/glacier.dart';
@@ -77,8 +78,27 @@ class Reader with _$Reader {
 
   ThemeData get theme {
     final theme = readerThemes.firstWhere((element) => element.id == themeId);
-    bool isDarkMode = sp.getBool('isDarkMode') ?? false;
-    return isDarkMode ? theme.darkTheme : theme.theme;
+    final configStr = sp.getString("config") ?? "{}";
+    final config = Config.fromJson(jsonDecode(configStr));
+    return config.isDarkMode ? theme.darkTheme : theme.theme;
+  }
+  
+  void updateTextWeight(dynamic state) {
+    Log.w(state.textStyle.fontFamily);
+
+    int currentFontIndex = 0;
+    currentFontIndex = (currentFontIndex + 1) % fontList.length; // 循环索引
+    String newFontFamily = fontList[currentFontIndex];
+
+    state = state.copyWith(
+        textStyle: state.textStyle.copyWith(
+            fontFamily: newFontFamily,
+            fontWeight: FontWeight.normal
+        )
+    );
+
+    // 保存新的字体系列到共享偏好
+    sp.setString("fontFamily", newFontFamily);
   }
 
   TextStyle get computedTextStyle {
@@ -209,7 +229,7 @@ class ReaderNotifier
     final textStyle = TextStyle(
         fontSize: sp.getDouble("fontSize") ?? 18,
         height: sp.getDouble("lineHeight") ?? 1.7,
-      fontFamily: sp.getString("fontFamily") ?? "",
+        fontFamily: sp.getString("fontFamily") ?? "",
     );
     return Reader(
         name: arg.$1,

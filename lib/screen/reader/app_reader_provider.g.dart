@@ -22,7 +22,7 @@ final readerProgressProvider =
 );
 
 typedef _$ReaderProgress = AutoDisposeNotifier<double>;
-String _$appReaderHash() => r'0919e35214f4778d78a35f7a3a26a7ddefd1e36d';
+String _$appReaderHash() => r'ae92cd6ec8e8680afcbf65a09012a0aef61731d0';
 
 /// Copied from Dart SDK
 class _SystemHash {

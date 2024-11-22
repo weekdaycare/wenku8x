@@ -64,24 +64,6 @@ class AppReader extends _$AppReader {
     }
   }
 
-  void updateTextWeight() {
-    Log.w(state.textStyle.fontFamily);
-
-    int currentFontIndex = 0;
-    currentFontIndex = (currentFontIndex + 1) % fontList.length; // 循环索引
-    String newFontFamily = fontList[currentFontIndex];
-
-    state = state.copyWith(
-        textStyle: state.textStyle.copyWith(
-            fontFamily: newFontFamily,
-            fontWeight: FontWeight.normal
-        )
-    );
-
-    // 保存新的字体系列到共享偏好
-    sp.setString("fontFamily", newFontFamily);
-  }
-
   Future initCatalog() async {
     final docDir = await getApplicationDocumentsDirectory();
     bookDir = Directory("${docDir.path}/books/${state.aid}");
