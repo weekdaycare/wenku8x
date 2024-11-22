@@ -9,7 +9,7 @@ import 'package:wenku8x/screen/home/home_provider.dart';
 import 'package:wenku8x/screen/palette/palette_screen.dart';
 import 'package:wenku8x/screen/profile/profile_screen.dart';
 import 'package:wenku8x/screen/rank/rank_screen.dart';
-import 'package:wenku8x/screen/reader/app_reader_screen.dart';
+import 'package:wenku8x/screen/reader/reader_screen.dart';
 import 'package:wenku8x/screen/search/search_screen.dart';
 import 'package:wenku8x/service/navigation.dart';
 
@@ -45,7 +45,7 @@ final router = GoRouter(
         final name = state.pathParameters["name"] as String;
         final aid = state.pathParameters["aid"] as String;
         final cIndex = int.parse(state.pathParameters["cIndex"] as String);
-        return AppReaderScreen(name: name, aid: aid, cIndex: cIndex);
+        return ReaderScreen(name: name, aid: aid, cIndex: cIndex);
       },
     ),
     GoRoute(

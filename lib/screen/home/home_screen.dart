@@ -8,7 +8,6 @@ import 'package:wenku8x/screen/home/detail_modal.dart';
 import 'package:wenku8x/screen/home/home_provider.dart';
 import 'package:wenku8x/theme/extend.dart';
 import 'package:wenku8x/utils/flash.dart';
-import 'package:wenku8x/utils/log.dart';
 
 import 'book_item.dart';
 
@@ -24,7 +23,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     EasyRefreshController controller = EasyRefreshController();
     var books = ref.watch<List<BookItem>>(myBooksProvider);
-    Log.i(books);
     return Scaffold(
         backgroundColor:
             Theme.of(context).extension<ExtendColors>()!.elevationBackground,
@@ -56,8 +54,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   itemBuilder: (context, index) {
                     final book = books[index];
                     final child = BookItemComp(book, onItemTap: (item) {
-                      ref.read(myBooksProvider.notifier).updateBookReadTime(
-                          index, DateTime.now().millisecondsSinceEpoch);
                       GoRouter.of(context)
                           .push("/reader/${item.name}/${item.aid}/-1");
                     }, onItemLongTap: (item) {

@@ -62,13 +62,8 @@ const BookItemSchema = CollectionSchema(
       name: r'name',
       type: IsarType.string,
     ),
-    r'readTime': PropertySchema(
-      id: 9,
-      name: r'readTime',
-      type: IsarType.long,
-    ),
     r'status': PropertySchema(
-      id: 10,
+      id: 9,
       name: r'status',
       type: IsarType.string,
     )
@@ -155,8 +150,7 @@ void _bookItemSerialize(
   writer.writeString(offsets[6], object.lastChapterId);
   writer.writeString(offsets[7], object.lastUpdate);
   writer.writeString(offsets[8], object.name);
-  writer.writeLong(offsets[9], object.readTime);
-  writer.writeString(offsets[10], object.status);
+  writer.writeString(offsets[9], object.status);
 }
 
 BookItem _bookItemDeserialize(
@@ -175,8 +169,7 @@ BookItem _bookItemDeserialize(
     lastChapterId: reader.readStringOrNull(offsets[6]),
     lastUpdate: reader.readStringOrNull(offsets[7]),
     name: reader.readString(offsets[8]),
-    readTime: reader.readLong(offsets[9]),
-    status: reader.readStringOrNull(offsets[10]),
+    status: reader.readStringOrNull(offsets[9]),
   );
   return object;
 }
@@ -207,8 +200,6 @@ P _bookItemDeserializeProp<P>(
     case 8:
       return (reader.readString(offset)) as P;
     case 9:
-      return (reader.readLong(offset)) as P;
-    case 10:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -1511,59 +1502,6 @@ extension BookItemQueryFilter
     });
   }
 
-  QueryBuilder<BookItem, BookItem, QAfterFilterCondition> readTimeEqualTo(
-      int value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'readTime',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<BookItem, BookItem, QAfterFilterCondition> readTimeGreaterThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'readTime',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<BookItem, BookItem, QAfterFilterCondition> readTimeLessThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'readTime',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<BookItem, BookItem, QAfterFilterCondition> readTimeBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'readTime',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-
   QueryBuilder<BookItem, BookItem, QAfterFilterCondition> statusIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -1826,18 +1764,6 @@ extension BookItemQuerySortBy on QueryBuilder<BookItem, BookItem, QSortBy> {
     });
   }
 
-  QueryBuilder<BookItem, BookItem, QAfterSortBy> sortByReadTime() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'readTime', Sort.asc);
-    });
-  }
-
-  QueryBuilder<BookItem, BookItem, QAfterSortBy> sortByReadTimeDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'readTime', Sort.desc);
-    });
-  }
-
   QueryBuilder<BookItem, BookItem, QAfterSortBy> sortByStatus() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'status', Sort.asc);
@@ -1973,18 +1899,6 @@ extension BookItemQuerySortThenBy
     });
   }
 
-  QueryBuilder<BookItem, BookItem, QAfterSortBy> thenByReadTime() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'readTime', Sort.asc);
-    });
-  }
-
-  QueryBuilder<BookItem, BookItem, QAfterSortBy> thenByReadTimeDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'readTime', Sort.desc);
-    });
-  }
-
   QueryBuilder<BookItem, BookItem, QAfterSortBy> thenByStatus() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'status', Sort.asc);
@@ -2063,12 +1977,6 @@ extension BookItemQueryWhereDistinct
     });
   }
 
-  QueryBuilder<BookItem, BookItem, QDistinct> distinctByReadTime() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'readTime');
-    });
-  }
-
   QueryBuilder<BookItem, BookItem, QDistinct> distinctByStatus(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -2136,12 +2044,6 @@ extension BookItemQueryProperty
   QueryBuilder<BookItem, String, QQueryOperations> nameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'name');
-    });
-  }
-
-  QueryBuilder<BookItem, int, QQueryOperations> readTimeProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'readTime');
     });
   }
 
