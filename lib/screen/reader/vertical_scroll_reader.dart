@@ -29,12 +29,6 @@ class VerticalScrollReader extends StatefulHookConsumerWidget {
 class _VerticalScrollReaderState extends ConsumerState<VerticalScrollReader>
     with TickerProviderStateMixin {
   late EasyRefreshController _controller;
-  final _MIProperties _headerProperties = _MIProperties(
-    name: 'Header',
-  );
-  final _MIProperties _footerProperties = _MIProperties(
-    name: 'Footer',
-  );
 
 
   (bool, String) testImage(String textLine) {
@@ -71,22 +65,6 @@ class _VerticalScrollReaderState extends ConsumerState<VerticalScrollReader>
     return Material(
         child: EasyRefresh(
       controller: _controller,
-      header: MaterialHeader(
-        clamping: _headerProperties.clamping,
-        showBezierBackground: _headerProperties.background,
-        bezierBackgroundAnimation: _headerProperties.animation,
-        bezierBackgroundBounce: _headerProperties.bounce,
-        infiniteOffset: _headerProperties.infinite ? 100 : null,
-        springRebound: _headerProperties.listSpring,
-      ),
-      footer: MaterialFooter(
-        clamping: _footerProperties.clamping,
-        showBezierBackground: _footerProperties.background,
-        bezierBackgroundAnimation: _footerProperties.animation,
-        bezierBackgroundBounce: _footerProperties.bounce,
-        infiniteOffset: _footerProperties.infinite ? 100 : null,
-        springRebound: _footerProperties.listSpring,
-      ),
       onLoad: () async {
         await widget.loadNext();
         _controller.finishLoad();
@@ -145,18 +123,4 @@ class _VerticalScrollReaderState extends ConsumerState<VerticalScrollReader>
               images[i]);
         });
   }
-}
-
-class _MIProperties {
-  final String name;
-  bool clamping = true;
-  bool background = false;
-  bool animation = false;
-  bool bounce = false;
-  bool infinite = false;
-  bool listSpring = false;
-
-  _MIProperties({
-    required this.name,
-  });
 }

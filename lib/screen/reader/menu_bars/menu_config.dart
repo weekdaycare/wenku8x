@@ -57,18 +57,29 @@ class _MenuConfigState extends ConsumerState<MenuConfig>
                 maxCrossAxisExtent: 110,
                 children: [
                   buildConfigButton(
-                      label: "平移翻页",
-                      icon: const Icon(
-                        Icons.vertical_split_outlined,
-                      ),
-                      enabled: config.horizontalScroll),
+                    label: "平移翻页",
+                    icon: const Icon(
+                      Icons.vertical_split_outlined,
+                    ),
+                    enabled: config.horizontalScroll,
+                    onPressed: () {
+                      ref.read(widget.provider.notifier).updateConfig(
+                        horizontalScroll: true,
+                        verticalScroll: false,
+                      );
+                    }),
                   buildConfigButton(
                     label: "滚动翻页",
                     icon: const Icon(
                       Icons.horizontal_split_outlined,
                     ),
                     enabled: config.verticalScroll,
-                  ),
+                      onPressed: () {
+                      ref.read(widget.provider.notifier).updateConfig(
+                        horizontalScroll: false,
+                        verticalScroll: true,
+                      );
+                    }),
                   buildConfigButton(
                       label: "静默翻页",
                       icon: const Icon(

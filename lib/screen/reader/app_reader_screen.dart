@@ -3,10 +3,8 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -15,7 +13,6 @@ import 'package:wenku8x/screen/reader/menu_bars/menu_catalog.dart';
 import 'package:wenku8x/screen/reader/menu_bars/menu_config.dart';
 import 'package:wenku8x/screen/reader/menu_bars/menu_text.dart';
 import 'package:wenku8x/screen/reader/menu_bars/menu_top.dart';
-import 'package:wenku8x/screen/reader/menu_bars/progress_bar.dart';
 import 'package:wenku8x/screen/reader/menu_bars/progress_bar/app_progress_bar.dart';
 import 'package:wenku8x/screen/reader/scroll_reader.dart';
 import 'package:wenku8x/screen/reader/timer_provider.dart';
@@ -121,8 +118,6 @@ class _ReaderScreenState extends ConsumerState<AppReaderScreen> {
                             loadNext: ref.read(provider.notifier).loadNextChapter,
                             onPageScrollEnd: ref.read(readerProvider((widget.name, widget.aid, widget.cIndex)).notifier).onPageScrollEnd,
                   ))),
-              _buildHeader(provider),
-              _buildBottomStatus(provider),
               const MenuBottom(),
               AppProgressBar(provider),
               MenuCatalog(provider),
